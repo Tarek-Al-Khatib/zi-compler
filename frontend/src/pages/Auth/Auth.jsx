@@ -55,9 +55,9 @@ const Auth = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/auth/register",
+        "http://127.0.0.1:8000/api/auth/register",
         {
-          username: formState.name,
+          name: formState.name,
           password: formState.password,
           password_confirmation: formState.confirmPassword,
           email: formState.email,
@@ -75,16 +75,16 @@ const Auth = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!loginState.username || !loginState.password) {
+    if (!loginState.email || !loginState.password) {
       setError("All fields are required.");
       return;
     }
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
+        "http://127.0.0.1:8000/api/auth/login",
         {
-          username: loginState.username,
+          email: loginState.email,
           password: loginState.password,
         }
       );
