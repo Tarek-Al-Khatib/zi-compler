@@ -35,6 +35,16 @@ class CollaborationRequestMail extends Mailable
         );
     }
 
+
+    public function build()
+    {
+        return $this->subject('Collaboration Request')
+                    ->view('emails.collaboration_request')
+                    ->with([
+                        'senderName' => $this->senderName,
+                        'acceptUrl' => $this->acceptUrl,
+                    ]);
+    }
     /**
      * Get the message content definition.
      */
