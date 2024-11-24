@@ -49,13 +49,56 @@ const LeftPannel = ()=>{
     return(
         
 
-<div className="leftPanel">
+<div className="left-panel">
     <Navbar/>
+    <form onSubmit={handleSubmit}>
+        <h3>Add New File</h3>
+        <label>File Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          placeholder="Enter file name"
+          required
+        />
+        
+        <label>Language:</label>
+        <select
+          name="language"
+          value={formData.language}
+          onChange={handleInputChange}
+        >
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+          <option value="cpp">C++</option>
+        </select>
+        
+        <label>Content:</label>
+        <textarea
+          name="content"
+          value={formData.content}
+          onChange={handleInputChange}
+          placeholder="Write your code here"
+          required
+        ></textarea>
+        
+        <button type="submit">Add File</button>
+      </form>
 
-
-</div>
-
-    );
-}
+      <div className="file-list">
+        <h3>Existing Files</h3>
+        <ul>
+          {files.map((file) => (
+            <li key={file.id} onClick={() => console.log("Load file:", file)}>
+              {file.name} ({file.language})
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
 
 export default LeftPannel;
