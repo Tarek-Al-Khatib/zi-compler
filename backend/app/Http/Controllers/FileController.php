@@ -19,18 +19,18 @@ class FileController extends Controller{
     public function store(Request $request)
     {
         
-        $request->validate([
+       $validated = $request->validate([
             'name' => 'required|string|max:255',
             'language' => 'required|string|max:255',
-            'content' => 'nullable|string',
+            'content' => 'required|string',
         ]);
 
        
         $file = File::create([
+            'name' => $validated['name'],
+            'language' => $validated['language'],
+            'content' => $validated['content'],
             'user_id' => auth()->id(), 
-            'name' => $request->name,
-            'language' => $request->language,
-            'content' => $request->content,
         ]);
 
         return response()->json([

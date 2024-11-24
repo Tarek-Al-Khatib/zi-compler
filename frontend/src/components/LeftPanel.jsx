@@ -9,7 +9,7 @@ const LeftPannel = ()=>{
     const [files, setFiles] = useState([]);
     const [formData,setFormData] = useState({
         name: "",
-        language: "javascript",
+        language: "",
         content: "",
     });
 
@@ -20,7 +20,7 @@ const LeftPannel = ()=>{
     
       const fetchFiles = async () => {
         try {
-          const response = await axios.get("http://127.0.0.1:8000/api/files"); 
+          const response = await axios.get("http://127.0.0.1:8000/api/auth/files"); 
           setFiles(response.data.files);
           console.log(response.data);
         } catch (error) {
@@ -37,13 +37,27 @@ const LeftPannel = ()=>{
       const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          const response = await axios.post("/api/files", formData); 
-          setFiles((prev) => [...prev, response.data.file]); 
-          setFormData({ name: "", language: "javascript", content: "" }); 
+          const token = localStorage.getItem("token");
+          const response = await axios.post(
+            "http://127.0.0.1:8000/api/auth/files1",
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setFiles((prev) => [...prev, response.data.file]);
+          setFormData({ name: "", language: "", content: "" });
         } catch (error) {
-          console.error("Error adding file:", error);
+          if (error.response) {
+            console.error("API Error:", error.response.data); 
+          } else {
+            console.error("Error:", error.message); 
+          }
         }
       };
+      
 
 
     return(

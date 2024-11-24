@@ -12,9 +12,6 @@ use App\Http\Controllers\FileController;
 Route::get('/collabs',[CollaborationController::class,"get_collaborations"]);
 Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
 
-Route::post('/files', [FileController::class, 'store']);
-
-
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
