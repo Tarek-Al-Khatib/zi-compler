@@ -39,7 +39,7 @@ class CollaborationRequestMail extends Mailable
     public function build()
     {
         return $this->subject('Collaboration Request')
-                    ->view('emails.editor-invite')
+                    ->markdown('mail.editor-invite')
                     ->with([
                         'senderName' => $this->senderName,
                         'acceptUrl' => $this->acceptUrl,
@@ -51,7 +51,7 @@ class CollaborationRequestMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.editor-invite',
         );
     }
 
