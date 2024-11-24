@@ -1,0 +1,85 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  width: 200px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.active {
+  border-color: #1abc9c;
+}
+
+.banned {
+  background-color: #e74c3c;
+  color: #fff;
+  border-color: #c0392b;
+}
+
+.button,
+.ban-button {
+  padding: 8px 12px;
+  background-color: #0099ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.ban-button {
+  background-color: #e74c3c;
+}
+
+.edit-button {
+  background-color: #348108;
+}
+.remove-button {
+  background-color: #e74c3c;
+}
+
+.cancel-button {
+  background-color: #b49a02;
+}
+
+.ban-button:hover {
+  background-color: #c0392b;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  justify-content: center;
+  padding: 20px;
+}
+
+.form-container input,
+.form-container select {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  color: #34495e;
+}
+
+.form-container select:focus {
+  outline: none;
+  border-color: #1abc9c;
+}
