@@ -3,7 +3,7 @@ import CodeEditor from "../components/CodeEditor";
 
 const Compilar = ()=>{
     return (
-        <div>
+        <div className="compilar">
             <CodeEditor />
         </div>
     )

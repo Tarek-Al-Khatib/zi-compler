@@ -12,10 +12,14 @@ const CodeEditor = ()=>{
     return(
         <div className="flex row code-editor">
             <div className="flex column input-container">
-                <p className="white-txt">Input</p>
+                <div className="flex row center input-header">
+
+                    <p className="white-txt">Input</p>
+                    <button className="action-btn blue-txt black-bg">Run</button>
+                </div>
                 <Editor 
                 
-                height="80vh" 
+                // height="80vh" 
                 defaultLanguage="javascript" 
                 defaultValue="// start code" 
                 theme="vs-dark" 

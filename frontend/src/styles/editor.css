@@ -9,14 +9,27 @@
     width: 50%;
     height: 100%;
 }
+.input-container>p, .output-container>p{
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
 
 .output-container{
+    
     gap: 5px;
     width: 50%;
     height: 100%;
 }
 
 .output{
+    border:1px solid #0065a9;
+    border-radius: 10px;
     width: 100%;
     height: 100%;
+}
+
+.input-header{
+    gap: 20px;
 }
