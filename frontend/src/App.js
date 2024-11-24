@@ -1,8 +1,9 @@
 import Navbar from "./base/navbar";
-import LeftPannel from "./components/LeftPanel";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Auth from "./pages/Auth/Auth";
+import LeftPannel from "./components/LeftPanel";
+import AppLayout from "./pages/Auth/AppLayout";
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Auth />} />
-          <Route path="/panel" element={<LeftPannel />} />
+          <Route path="/layout" element={<AppLayout />} />
         </Routes>
       </BrowserRouter>
     </div>

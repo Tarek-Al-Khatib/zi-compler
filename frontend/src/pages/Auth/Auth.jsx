@@ -95,7 +95,7 @@ const Auth = () => {
       JSON.stringify({ username, email }) 
     );
 
-    navigate("/panel");
+    navigate("/layout");
 
     console.log("User logged in:", response.data);
     } catch (error) {
