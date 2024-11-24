@@ -7,7 +7,11 @@ const CodeEditor = () => {
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("Run code for output");
 
+  const formatErrorMessage = (error) => {
+    const format = error.indexOf("line")
 
+    return error.substring(format)
+  };
   
   
   
@@ -33,7 +37,7 @@ const CodeEditor = () => {
         ],
       });
 
-      setOutput(response.data.run.stdout || response.data.run.stderr);
+      setOutput(response.data.run.stdout || formatErrorMessage(response.data.run.stderr));
     } catch (error) {
       console.error("Error Details:",error.message);
       setOutput("Error: " + (error.message));
