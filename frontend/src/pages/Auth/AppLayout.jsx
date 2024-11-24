@@ -4,6 +4,7 @@ import "../../styles/leftPannel.css"
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../base/navbar';
 import LeftPannel from "../../components/LeftPanel";
+import RightPanel from "../../components/RightPanel";
 
 
 const AppLayout = () =>{
@@ -31,14 +32,7 @@ const AppLayout = () =>{
         </div>
 
       <div className="right-panel">
-        <h3>Collaborators</h3>
-        <button>+ Add Collaborator</button>
-        <div className="collaborators-list">
-          <ul>
-            <li>Zako mako </li>
-            <li>zizo l motawa7esh</li>
-          </ul>
-        </div>
+       <RightPanel/>
       </div>
             
             </div>

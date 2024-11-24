@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Auth from "./pages/Auth/Auth";
 import LeftPannel from "./components/LeftPanel";
+import RightPanel from "./components/RightPanel";
 import AppLayout from "./pages/Auth/AppLayout";
 
 function App() {
