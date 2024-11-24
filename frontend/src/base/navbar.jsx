@@ -12,7 +12,7 @@ const logo = "../assets/zcompilerjpeg.jpeg";
 
 <nav className="navbar flex">
       <div className="logo">
-        <img src={logo} alt="learnn" />
+        <img src={require("../assets/zcompilerjpeg.jpeg")} alt="learnn" />
       </div>
       <h1>Z-Compiler</h1>
     </nav>

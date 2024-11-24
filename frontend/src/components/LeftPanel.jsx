@@ -63,8 +63,7 @@ const LeftPannel = ()=>{
     return(
         
 
-<div className="left-panel">
-    <Navbar/>
+<div>
     <form onSubmit={handleSubmit}>
         <h3>Add New File</h3>
         <label>File Name:</label>
@@ -83,6 +82,7 @@ const LeftPannel = ()=>{
           value={formData.language}
           onChange={handleInputChange}
         >
+            <option value="javascript">Select below</option>
           <option value="javascript">JavaScript</option>
           <option value="python">Python</option>
           <option value="java">Java</option>
