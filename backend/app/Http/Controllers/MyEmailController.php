@@ -10,40 +10,27 @@ use App\Models\File;
 
 class MyEmailController extends Controller{
 
-    public function sendCollaborationRequest($fileId,$senderId,$receiverEmail){
-        logger("File ID: $fileId");
-        logger("Sender ID: $senderId");
-        logger("Receiver Email: $receiverEmail");
+    public function sendCollabo(Request $request)
+    {
+        // Validate the incoming request
+        $validated = $request->validate([
+            'fileId' => 'required|integer',
+            'senderName' => 'required|string',
+            'receiverEmail' => 'required|email',
+            'receiverId' => 'required|integer',
+        ]);
 
-        // Get sender info (loggedin)
-        $sender = User::find($senderId);
-        $fileExist = File::find($fileId);
+        $fileId = $validated['fileId'];
+        $senderName = $validated['senderName'];
+        $receiverEmail = $validated['receiverEmail'];
+        $receiverId = $validated['receiverId'];
 
-        if (!$fileExist) {
-            logger("File not found: $fileId");
-            return response()->json(['error' => 'file not found'], 404);
-        }
+        $acceptUrl = route('collaborations.accept', ['fileId' => $fileId, 'userId' => $receiverId]);
 
-        if (!$sender) {
-            logger("Sender not found: $senderId");
-            return response()->json(['error' => 'Sender not found'], 404);
-        }
+        Mail::to($receiverEmail)
+            ->send(new CollaborationRequestMail($senderName, $acceptUrl));
 
-        
-    
-        // receiverinfo
-        $receiver = User::where('email', $receiverEmail)->first();
-    
-        if (!$receiver) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
-    
-        // Create a URL for the collaboration request page 
-        $url = route('collaborations.accept', ['fileId' => $fileId, 'userId' => $receiver->id]);
-    
-        // Send email
-        Mail::to($receiver->email)->send(new CollaborationRequestMail($sender->name, $url));
-    
-        return response()->json(['message' => 'Collaboration request sent successfully']);
+        return response()->json(['message' => 'Collaboration email sent successfully!'], 200);
     }
+
 }

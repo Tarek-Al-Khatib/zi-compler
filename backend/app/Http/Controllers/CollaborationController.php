@@ -15,22 +15,25 @@ class CollaborationController extends Controller{
     }
 
 
-    public function acceptCollaboration($fileId, $userId)
-{
+     function accept($fileId, $userId){
     $collaboration = Collaboration::where('file_id', $fileId)
                                   ->where('user_id', $userId)
                                   ->first();
 
-    if (!$collaboration) {
-        return response()->json(['message' => 'Collaboration request not found'], 404);
+    if ($collaboration) {
+        return redirect()->route('collaborations.success')
+                             ->with('message', 'You have already accepted this collaboration!');
+        }
+
+        
+        $collaboration = new Collaboration();
+        $collaboration->file_id = $fileId;
+        $collaboration->user_id = $userId;
+        $collaboration->role = 'editor'; 
+        $collaboration->status = 'accepted'; 
+        $collaboration->save();
+
+        return redirect()->route('collaborations.success')
+                         ->with('message', 'You have successfully accepted the collaboration!');
     }
-
-    $collaboration->status = 'accepted';
-    $collaboration->save();
-
-    return response()->json(['message' => 'Collaboration accepted successfully']);
-}
-
-
-
 }

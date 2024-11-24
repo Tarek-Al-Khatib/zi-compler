@@ -5,6 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollaborationController;
 use App\Http\Controllers\MyEmailController;
 
+
+
+
+Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
+
+
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
