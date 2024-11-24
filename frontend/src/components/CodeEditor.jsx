@@ -7,35 +7,37 @@ const CodeEditor = () => {
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("// output");
 
+  const escapeCodeForJSON = (code) => {
+    return code.replace(/\n/g, "\\n").replace(/"/g, '\\"');
+  };
+
   const run = async () => {
     const code = editorRef.current?.getValue();
     if (!code) return;
-
+  
     try {
-      const API = axios.create({
-        baseURL: "https://emkc.org/api/v2/piston",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const response = await API.post("/execute", {
+      const escapedCode = escapeCodeForJSON(code)
+  
+      const response = await axios.post("https://emkc.org/api/v2/execute", {
         language: "python",
-        version: "3",
-        files: [
-          {
-            content: code,
-          },
-        ],
+        version: "3.10.0",
+        files: [{ content: escapedCode }],
       });
-
-      setOutput(response.data?.run?.stdout || "No output");
+  
+      const stdout = response.data?.run?.stdout || "";
+      const stderr = response.data?.run?.stderr || "";
+  
+      if (stderr) {
+        setOutput("Code Error: " + stderr);
+      } else {
+        setOutput(stdout || "No output");
+      }
     } catch (error) {
-      console.error("Error Details:",error.message);
-      setOutput("Error: " + (error.message));
+      setOutput("Error: " + (error.message || "Unable to execute code"));
+      console.error(error);
     }
   };
-
+  
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
@@ -51,7 +53,7 @@ const CodeEditor = () => {
           </button>
         </div>
         <Editor
-          defaultLanguage="javascript"
+          defaultLanguage="python"
           defaultValue="// start code"
           theme="vs-dark"
           value={code}
