@@ -18,7 +18,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
@@ -26,16 +26,41 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
-
-        if (! $token = auth()->attempt($credentials)) {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+    
+        $credentials = $request->only('email', 'password');
+    
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        return $this->respondWithToken($token);
+    
+        $user = auth()->user();
+    
+        $token = auth()->setTTL(86400)->claims([
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ]
+            ]);
+    
+        return response()->json([
+            'message' => 'Successful login',
+            'access_token' => $token,
+            'username' => $user->name,
+            'email'=> $user->email
+        ], 200);
     }
+    
 
     /**
      * Get the authenticated User.
@@ -93,7 +118,7 @@ class AuthController extends Controller
     ]);
 
     if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422);
+        return response()->json(['errors' => $validator->errors()], 400);
     }
 
     $user = User::create([
@@ -102,7 +127,7 @@ class AuthController extends Controller
         'password' => Hash::make($request->password),
     ]);
 
-    $token = auth()->claims([
+    $token = auth()->setTTL(86400)->claims([
         'user' => [
             'id' => $user->id,
             'name' => $user->name,
@@ -115,7 +140,7 @@ class AuthController extends Controller
         'access_token' => $token,
         'username' => $user->name,
         'email'=> $user->email
-    ], 201);
+    ], 200);
 }
 
 }
