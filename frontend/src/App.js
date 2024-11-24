@@ -1,3 +1,5 @@
+import Navbar from './base/navbar';
+import LeftPannel from './components/LeftPanel';
 import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -8,7 +10,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Auth />}></Route>
+          <Route path="/" element={ <LeftPannel/>}/>
+          <Route path="/" element={ <Auth />} />
         </Routes>
       </BrowserRouter>
     </div>
