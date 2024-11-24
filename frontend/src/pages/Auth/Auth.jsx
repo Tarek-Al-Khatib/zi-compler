@@ -16,7 +16,7 @@ const Auth = () => {
   });
 
   const [loginState, setLoginState] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -55,29 +55,17 @@ const Auth = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/e-learning/backend/user/signup.php",
+        "http://localhost:8080/api/auth/register",
         {
           username: formState.name,
           password: formState.password,
+          password_confirmation: formState.confirmPassword,
           email: formState.email,
         }
       );
 
       const user = response.data;
       console.log(user);
-      if (user.role == "admin") {
-        navigate("/admin", {
-          state: {
-            user,
-          },
-        });
-      } else {
-        navigate("/dashboard", {
-          state: {
-            user,
-          },
-        });
-      }
     } catch (error) {
       setError("Error: Unable to register.");
       console.error(error);
@@ -94,7 +82,7 @@ const Auth = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/e-learning/backend/user/signin.php",
+        "http://localhost:8080/api/auth/login",
         {
           username: loginState.username,
           password: loginState.password,
@@ -103,24 +91,6 @@ const Auth = () => {
 
       const user = response.data;
       console.log(user);
-      if (user.status == "error") {
-        console.log("error");
-        setError(user.message);
-      } else if (user.status != "banned") {
-        if (user.role == "admin") {
-          navigate("/admin", {
-            state: {
-              user,
-            },
-          });
-        } else {
-          navigate("/dashboard", {
-            state: {
-              user,
-            },
-          });
-        }
-      }
     } catch (error) {
       setError("Error: Unable to log in.");
       console.error(error);
@@ -178,10 +148,10 @@ const Auth = () => {
       ) : (
         <form onSubmit={handleLogin}>
           <input
-            type="username"
-            name="username"
-            placeholder="Username"
-            value={loginState.username}
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={loginState.email}
             onChange={handleInputChange}
           />
           <input
