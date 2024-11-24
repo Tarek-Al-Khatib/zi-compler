@@ -10,7 +10,7 @@ class CollaborationController extends Controller{
         $collaborations = Collaboration::all();
 
         return response()->json([
-            "collaborations: "=> $collaborations
+            "collaborations"=> $collaborations
         ]);
     }
 
