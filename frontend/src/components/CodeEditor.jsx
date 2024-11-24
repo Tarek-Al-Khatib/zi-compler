@@ -1,8 +1,14 @@
-import React, {useState} from "react"
+import React, {useState,useRef} from "react"
 import Editor from '@monaco-editor/react';
 const CodeEditor = ()=>{
+    const editorRef = useRef();
     const [code,setCode]=useState();
-    console.log(code)
+    
+    const onMount = (editor) =>{
+        editorRef.current = editor;
+        editor.focus();
+    }
+
     return(
         <div>
             <Editor 
@@ -13,6 +19,7 @@ const CodeEditor = ()=>{
             theme="vs-dark" 
             value={code}
             onChange={(code, )=>setCode(code)}
+            onMount={onMount}
             />
         </div>
     )
