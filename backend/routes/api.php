@@ -7,7 +7,7 @@ use App\Http\Controllers\MyEmailController;
 
 
 
-
+Route::get('/collabs',[CollaborationController::class,"get_collaborations"]);
 Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
 
 
@@ -18,7 +18,7 @@ Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
 // Route::get('/test', function(){
 //     return new \App\Mail\MyEmail();
 // });
-// Route::get('/collabs',[CollaborationController::class,"get_collaborations"]);
+
 
 
 // Route::get('/sendEmail,', [])

@@ -14,7 +14,20 @@ const LeftPannel = ()=>{
     });
 
 
+    useEffect(() => {
+        fetchFiles();
+      }, []);
     
+      const fetchFiles = async () => {
+        try {
+          const response = await axios.get("http://127.0.0.1:8000/api/collabs"); 
+          setFiles(response.data.files);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching files:", error);
+        }
+      };
+
 
     return(
         
