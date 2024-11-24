@@ -51,7 +51,7 @@ class AuthController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
             ]
-            ]);
+            ])->refresh();
     
         return response()->json([
             'message' => 'Successful login',
@@ -133,7 +133,10 @@ class AuthController extends Controller
             'name' => $user->name,
             'email' => $user->email,
         ]
-    ])->attempt($user);
+    ])->attempt([
+        "email"=>$request->email, 
+        "password" => $request->password
+    ]);
 
     return response()->json([
         'message' => 'User successfully registered',
