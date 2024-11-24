@@ -5,39 +5,41 @@ import axios from "axios";
 const CodeEditor = () => {
   const editorRef = useRef();
   const [code, setCode] = useState("");
-  const [output, setOutput] = useState("// output");
+  const [output, setOutput] = useState("Run code for output");
 
-  const escapeCodeForJSON = (code) => {
-    return code.replace(/\n/g, "\\n").replace(/"/g, '\\"');
-  };
 
+  
+  
+  
   const run = async () => {
     const code = editorRef.current?.getValue();
     if (!code) return;
-  
+
     try {
-      const escapedCode = escapeCodeForJSON(code)
-  
-      const response = await axios.post("https://emkc.org/api/v2/execute", {
-        language: "python",
-        version: "3.10.0",
-        files: [{ content: escapedCode }],
+      const API = axios.create({
+        baseURL: "https://emkc.org/api/v2/piston",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-  
-      const stdout = response.data?.run?.stdout || "";
-      const stderr = response.data?.run?.stderr || "";
-  
-      if (stderr) {
-        setOutput("Code Error: " + stderr);
-      } else {
-        setOutput(stdout || "No output");
-      }
+      const response = await API.post("/execute", {
+        language: "python",
+        version: "3",
+        files: [
+          {
+            file: "random.py",
+            content: code,
+          },
+        ],
+      });
+
+      setOutput(response.data.run.stdout || response.data.run.stderr);
     } catch (error) {
-      setOutput("Error: " + (error.message || "Unable to execute code"));
-      console.error(error);
+      console.error("Error Details:",error.message);
+      setOutput("Error: " + (error.message));
     }
   };
-  
+
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
@@ -54,7 +56,7 @@ const CodeEditor = () => {
         </div>
         <Editor
           defaultLanguage="python"
-          defaultValue="// start code"
+          defaultValue="# start code"
           theme="vs-dark"
           value={code}
           onChange={(newCode) => setCode(newCode)}
