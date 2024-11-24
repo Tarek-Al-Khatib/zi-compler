@@ -10,17 +10,26 @@ const CodeEditor = ()=>{
     }
 
     return(
-        <div>
-            <Editor 
-            className="code-editor"
-            height="70vh" 
-            defaultLanguage="javascript" 
-            defaultValue="// start code" 
-            theme="vs-dark" 
-            value={code}
-            onChange={(code, )=>setCode(code)}
-            onMount={onMount}
-            />
+        <div className="flex row code-editor">
+            <div className="flex column input-container">
+                <p className="white-txt">Input</p>
+                <Editor 
+                
+                height="80vh" 
+                defaultLanguage="javascript" 
+                defaultValue="// start code" 
+                theme="vs-dark" 
+                value={code}
+                onChange={(code, )=>setCode(code)}
+                onMount={onMount}
+                />
+            </div>
+            <div className="flex column output-container">
+                <p className="white-txt">Output</p>
+                <div className="flex vs-bg output">
+
+                </div>
+            </div>
         </div>
     )
 }

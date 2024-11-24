@@ -8,7 +8,7 @@ const App = () => {
   // const location = useLocation();
 
   return (
-    <div className='app white-bg'>
+    <div className='app black-bg'>
       <Routes>
         <Route path="/" element={<Compilar />} />
       </Routes>
