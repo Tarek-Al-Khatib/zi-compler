@@ -9,7 +9,6 @@ Route::get('/', function () {
 });
 
 
-
 Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
 
 Route::get('/collaborations/accept/{fileId}/{userId}', [CollaborationController::class, 'accept'])
@@ -18,8 +17,6 @@ Route::get('/collaborations/accept/{fileId}/{userId}', [CollaborationController:
 Route::get('/collaborations/success', function () {
     return view('collaborations.success');
 })->name('collaborations.success');
-
-
 
 
 

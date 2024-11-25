@@ -8,16 +8,9 @@ use App\Http\Controllers\MyEmailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\UserController;
 
-
-
-
-
-
-
 Route::middleware("auth")->get('/user', function (Request $request) {
   return $request->user();
 });
-
 
 Route::group([
   'middleware' => 'api',
@@ -32,12 +25,7 @@ Route::group([
   Route::post('/files1', [FileController::class, 'store']);
   Route::get('users', [UserController::class, 'getUsers']);
   Route::get('/collabs',[CollaborationController::class,"get_collaborations"]);
+  
 Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
 });
 
-
-Route::group([
-  'middleware' => 'api','prefix' => 'auth'], function () {
-  Route::get('collaborations', [CollaborationController::class, 'get_collaborations']);
-  Route::post('collaborations/accept/{fileId}/{userId}', [CollaborationController::class, 'accept']);
-});

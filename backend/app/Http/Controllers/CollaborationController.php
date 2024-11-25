@@ -7,18 +7,16 @@ use App\Models\Collaboration;
 
 class CollaborationController extends Controller{
     function get_collaborations(){
-        $collaborations = Collaboration::all();
-
+        $collaborations = Collaboration::with(['user', 'file'])->get();
         return response()->json([
             "collaborations"=> $collaborations
         ]);
     }
 
-
      function accept($fileId, $userId){
     $collaboration = Collaboration::where('file_id', $fileId)
                                   ->where('user_id', $userId)
-                                  ->first();
+                                  ->first();                           
 
     if ($collaboration) {
         return redirect()->route('collaborations.success')
