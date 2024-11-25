@@ -9,10 +9,10 @@ use App\Models\File;
 class FileController extends Controller{
 
     function get_files(){
-        $filess = File::all();
+        $files = File::where('user_id', auth()->id())->get();
 
         return response()->json([
-            "files"=> $filess
+            "files"=> $files
         ]);
     }
 
