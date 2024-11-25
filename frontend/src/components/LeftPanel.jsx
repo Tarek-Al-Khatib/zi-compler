@@ -10,7 +10,6 @@ const LeftPannel = ()=>{
     const [formData,setFormData] = useState({
         name: "",
         language: "",
-        content: "",
     });
 
 
@@ -48,7 +47,7 @@ const LeftPannel = ()=>{
             }
           );
           setFiles((prev) => [...prev, response.data.file]);
-          setFormData({ name: "", language: "", content: "" });
+          setFormData({ name: "", language: ""});
         } catch (error) {
           if (error.response) {
             console.error("API Error:", error.response.data); 
@@ -89,14 +88,6 @@ const LeftPannel = ()=>{
           <option value="cpp">C++</option>
         </select>
         
-        <label>Content:</label>
-        <textarea
-          name="content"
-          value={formData.content}
-          onChange={handleInputChange}
-          placeholder="Write your code here"
-          required
-        ></textarea>
         
         <button type="submit">Add File</button>
       </form>
