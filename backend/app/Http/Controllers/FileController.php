@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\File;
+// use Illuminate\Support\Facades\Auth;
 
 class FileController extends Controller{
 
@@ -17,18 +18,13 @@ class FileController extends Controller{
 
 
     public function store(Request $request)
-    {
+    {  
         
-       $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'language' => 'required|string|max:255',
-        ]);
-
-       
         $file = File::create([
-            'name' => $validated['name'],
-            'language' => $validated['language'],
-            'user_id' => auth()->id(), 
+            'user_id' => auth()->id(),
+            'name' => $request->name,
+            'language' =>$request->language,
+            'content' =>""
         ]);
 
         return response()->json([
