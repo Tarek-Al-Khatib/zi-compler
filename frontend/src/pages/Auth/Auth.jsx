@@ -88,9 +88,16 @@ const Auth = () => {
           password: loginState.password,
         }
       );
+      const { access_token, username, email } = response.data;
+    localStorage.setItem("token", access_token);
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ username, email }) 
+    );
 
-      const user = response.data;
-      console.log(user);
+    navigate("/layout");
+
+    console.log("User logged in:", response.data);
     } catch (error) {
       setError("Error: Unable to log in.");
       console.error(error);

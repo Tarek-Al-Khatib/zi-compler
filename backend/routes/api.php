@@ -6,27 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CollaborationController;
 use App\Http\Controllers\MyEmailController;
 use App\Http\Controllers\FileController;
-
-
-
-Route::get('/collabs',[CollaborationController::class,"get_collaborations"]);
-Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
-Route::get('/files', [FileController::class, 'get_files']);
-
-
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-
-// Route::get('/test', function(){
-//     return new \App\Mail\MyEmail();
-// });
-
-
-
-// Route::get('/sendEmail,', [])
-
-
+use App\Http\Controllers\UserController;
 
 Route::middleware("auth")->get('/user', function (Request $request) {
   return $request->user();
@@ -41,4 +21,11 @@ Route::group([
   Route::post('logout', [AuthController::class, "logout"]);
   Route::post('refresh', [AuthController::class, "refresh"]);
   Route::post('me',[AuthController::class, "me"]);
+  Route::get('/files', [FileController::class, 'get_files']);
+  Route::post('/files1', [FileController::class, 'store']);
+  Route::get('users', [UserController::class, 'getUsers']);
+  Route::get('/collabs',[CollaborationController::class,"get_collaborations"]);
+  
+Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
 });
+

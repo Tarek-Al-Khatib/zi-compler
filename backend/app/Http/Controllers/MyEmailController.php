@@ -12,7 +12,6 @@ class MyEmailController extends Controller{
 
     public function sendCollabo(Request $request)
     {
-        // Validate the incoming request
         $validated = $request->validate([
             'fileId' => 'required|integer',
             'senderName' => 'required|string',

@@ -1,0 +1,113 @@
+
+
+.container {
+    
+    display: flex;
+    height: 100vh; 
+    width: 100%;
+  }
+  
+  .left-panel, .middle-panel, .right-panel {
+    padding: 15px;
+    overflow-y: auto;
+  }
+  
+
+  .left-panel {
+    
+    width: 25%; 
+    background-color: #f5f5f5; 
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+ 
+  .middle-panel {
+    flex: 1; 
+    background-color: #ffffff; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+ 
+  .right-panel {
+    width: 25%; 
+    background-color: #f5f5f5;
+    border-left: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  h3 {
+    margin-bottom: 10px;
+  }
+  
+  form {
+    
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+  }
+  
+  input, select, textarea, button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .file-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .file-list li {
+    padding: 10px;
+    background-color: #e9ecef;
+    margin: 5px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .file-list li:hover {
+    background-color: #ced4da;
+  }
+  
+
+
+  .file-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .collaborators-list li {
+    padding: 10px;
+    background-color: #e9ecef;
+    margin: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }

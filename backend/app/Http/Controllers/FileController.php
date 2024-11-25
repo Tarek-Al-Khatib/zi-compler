@@ -11,8 +11,32 @@ class FileController extends Controller{
         $filess = File::all();
 
         return response()->json([
-            "files: "=> $filess
+            "files"=> $filess
         ]);
     }
 
+
+    public function store(Request $request)
+    {
+        
+       $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'language' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+       
+        $file = File::create([
+            'name' => $validated['name'],
+            'language' => $validated['language'],
+            'content' => $validated['content'],
+            'user_id' => auth()->id(), 
+        ]);
+
+        return response()->json([
+            'message' => 'File created successfully!',
+            'file' => $file
+        ], 201);
+    }
 }
+
