@@ -7,8 +7,7 @@ import { filesContext } from "../contexts/FileContext";
 
 const LeftPannel = ()=>{
 
-  const { list } = useContext(filesContext);
-
+  const { list, setSelectedFile } = useContext(filesContext);
     const [files, setFiles] = useState([]);
     const [formData,setFormData] = useState({
         name: "",
@@ -99,7 +98,7 @@ const LeftPannel = ()=>{
         <h3>Existing Files</h3>
         <ul>
           {list.map((file) => (
-            <li key={file.id} onClick={() => console.log("Load file:", file)}>
+            <li key={file.id} onClick={() => {setSelectedFile(file)}}>
               {file.name} ({file.language})
             </li>
           ))}
