@@ -9,15 +9,17 @@ import Auth from "./pages/Auth/Auth";
 import LeftPannel from "./components/LeftPanel";
 import RightPanel from "./components/RightPanel";
 import AppLayout from "./pages/Auth/AppLayout";
-
+import FilesProvider from "./contexts/FileContext";
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Auth />} />
-          <Route path="/layout" element={<AppLayout />} />
-        </Routes>
+        <FilesProvider>
+          <Routes>
+            <Route path="/" element={<Auth />} />
+            <Route path="/layout" element={<AppLayout />} />
+          </Routes>
+          </FilesProvider>
       </BrowserRouter>
     </div>
   );
