@@ -7,6 +7,7 @@ const FilesProvider = ({ children, x }) => {
   const [files, setFiles] = useState([]);
 
   const getFiles = () => {
+    const token = localStorage.getItem("token");
     axios.get("http://127.0.0.1:8000/api/auth/files",
         {
             headers: {
@@ -24,14 +25,14 @@ const FilesProvider = ({ children, x }) => {
   }, []);
 
   return (
-    <coursesContext.Provider
+    <filesContext.Provider
       value={{
         list: files,
         getFiles
       }}
     >
       {children}
-    </coursesContext.Provider>
+    </filesContext.Provider>
   );
 };
 
