@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../../base/navbar';
 import LeftPannel from "../../components/LeftPanel";
 import RightPanel from "../../components/RightPanel";
-
+import CodeEditor from "../../components/CodeEditor";
 
 const AppLayout = () =>{
 
@@ -24,12 +24,8 @@ const AppLayout = () =>{
             </div>
 
             <div className="middle-panel">
-            <h3>Code Compiler</h3>
-            <textarea
-             placeholder="Write your code here..."> 
-             </textarea>
-            <button>Run Code</button>
-        </div>
+                <CodeEditor/>
+            </div>
 
       <div className="right-panel">
        <RightPanel/>
