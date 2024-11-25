@@ -3,22 +3,22 @@ import { createContext, useEffect, useState } from "react";
 
 export const filesContext = createContext();
 
-const FilesProvider = ({ children, x }) => {
+const FilesProvider = ({ children }) => {
   const [files, setFiles] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const getFiles = () => {
     const token = localStorage.getItem("token");
-    axios.get("http://127.0.0.1:8000/api/auth/files",
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-              },
-        }
-    ).then(({ data }) => {
+    axios
+      .get("http://127.0.0.1:8000/api/auth/files", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(({ data }) => {
         setFiles(data.files);
-    });
+      });
   };
-
 
   useEffect(() => {
     getFiles();
@@ -28,7 +28,9 @@ const FilesProvider = ({ children, x }) => {
     <filesContext.Provider
       value={{
         list: files,
-        getFiles
+        getFiles,
+        selectedFile,
+        setSelectedFile,
       }}
     >
       {children}
