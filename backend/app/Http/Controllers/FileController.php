@@ -22,14 +22,12 @@ class FileController extends Controller{
        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'language' => 'required|string|max:255',
-            'content' => 'required|string',
         ]);
 
        
         $file = File::create([
             'name' => $validated['name'],
             'language' => $validated['language'],
-            'content' => $validated['content'],
             'user_id' => auth()->id(), 
         ]);
 
