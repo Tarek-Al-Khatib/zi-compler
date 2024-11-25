@@ -26,6 +26,7 @@ const FilesProvider = ({ children, x }) => {
   return (
     <coursesContext.Provider
       value={{
+        list: files,
         getFiles
       }}
     >

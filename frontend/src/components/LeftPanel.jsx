@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
 import axios from "axios";
 import "../styles/leftPannel.css"
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../base/navbar';
-
+import { filesContext } from "../contexts/FileContext";
 
 const LeftPannel = ()=>{
+
+  const { list } = useContext(filesContext);
+
     const [files, setFiles] = useState([]);
     const [formData,setFormData] = useState({
         name: "",
@@ -95,7 +98,7 @@ const LeftPannel = ()=>{
       <div className="file-list">
         <h3>Existing Files</h3>
         <ul>
-          {files.map((file) => (
+          {list.map((file) => (
             <li key={file.id} onClick={() => console.log("Load file:", file)}>
               {file.name} ({file.language})
             </li>
