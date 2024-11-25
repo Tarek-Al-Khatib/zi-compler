@@ -50,6 +50,7 @@ const CodeEditor = () => {
   };
 
   return (
+   
     <div className="flex row code-editor">
       <div className="flex column input-container">
         <div className="flex row center input-header">
@@ -72,6 +73,7 @@ const CodeEditor = () => {
         <div className="flex vs-bg output white-txt">{output}</div>
       </div>
     </div>
+   
   );
 };
 
