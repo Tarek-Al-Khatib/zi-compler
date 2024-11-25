@@ -1,12 +1,14 @@
 .code-editor{
-    padding: 20px;
+    /* padding: 20px; */
     width: 100%;
     height: 100%;
-    gap: 10px;
+    font-family: Consolas, "Courier New", monospace;
+    /* gap: 10px; */
 }
+
 .input-container{
     gap: 5px;
-    width: 50%;
+    width: 100%;
     height: 100%;
 }
 .input-container>p, .output-container>p{
@@ -34,4 +36,19 @@
 
 .input-header{
     gap: 20px;
+}
+
+.compilar{
+    width: 100%;
+    height: 100%;
+    gap: 5px;
+}
+
+.input{
+    width: 100%;
+    height: 75%;
+}
+.output{
+    width: 100%;
+    height: 25%;
 }

@@ -6,8 +6,6 @@ import Navbar from '../../base/navbar';
 import LeftPannel from "../../components/LeftPanel";
 import RightPanel from "../../components/RightPanel";
 import CodeEditor from "../../components/CodeEditor";
-import Compilar from "../Compiler";
-
 
 const AppLayout = () =>{
 
@@ -26,8 +24,8 @@ const AppLayout = () =>{
             </div>
 
             <div className="middle-panel">
-          <CodeEditor/>
-                </div>
+                <CodeEditor/>
+            </div>
 
       <div className="right-panel">
        <RightPanel/>
