@@ -1,19 +1,31 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
+import { filesContext } from "../contexts/FileContext";
 
 const CodeEditor = () => {
+  const { selectedFile } = useContext(filesContext);
   const editorRef = useRef();
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(null);
   const [output, setOutput] = useState("Run code for output");
 
+
+
+  useEffect(()=>{
+    setCode(selectedFile?.content || null)
+  },[selectedFile])
+
+  
   const formatErrorMessage = (error) => {
     const format = error.indexOf("line")
 
     return error.substring(format)
   };
   
-  
+  const onMount = (editor) => {
+    editorRef.current = editor;
+    editor.focus();
+  };
   
   const run = async () => {
     const code = editorRef.current?.getValue();
@@ -42,11 +54,6 @@ const CodeEditor = () => {
       console.error("Error Details:",error.message);
       setOutput("Error: " + (error.message));
     }
-  };
-
-  const onMount = (editor) => {
-    editorRef.current = editor;
-    editor.focus();
   };
 
   return (
