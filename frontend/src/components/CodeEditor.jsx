@@ -50,28 +50,29 @@ const CodeEditor = () => {
   };
 
   return (
-    <div className="flex row code-editor">
-      <div className="flex column input-container">
-        <div className="flex row center input-header">
-          <p className="white-txt">Input</p>
-          <button className="action-btn blue-txt black-bg" onClick={run}>
-            Run
-          </button>
+
+      <div className="flex column center compilar">
+        <button className="flex center action-btn white-txt black-bg run-btn" onClick={run}>
+          Run
+        </button>
+        <div className="flex input">
+
+          <Editor
+            defaultLanguage="python"
+            defaultValue="# start code"
+            theme="vs-dark"
+            value={code}
+            onChange={(newCode) => setCode(newCode)}
+            onMount={onMount}
+          />
         </div>
-        <Editor
-          defaultLanguage="python"
-          defaultValue="# start code"
-          theme="vs-dark"
-          value={code}
-          onChange={(newCode) => setCode(newCode)}
-          onMount={onMount}
-        />
+
+        <p className="black-txt">Output</p>
+        <div className="flex vs-bg output white-txt">
+          {output}
+        </div>
       </div>
-      <div className="flex column output-container">
-        <p className="white-txt">Output</p>
-        <div className="flex vs-bg output white-txt">{output}</div>
-      </div>
-    </div>
+
   );
 };
 

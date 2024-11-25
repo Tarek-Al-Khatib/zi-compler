@@ -1,4 +1,8 @@
 import Navbar from "./base/navbar";
+import './styles/colors.css'
+import './styles/utilities.css'
+import './styles/base.css'
+import './styles/editor.css'
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Auth from "./pages/Auth/Auth";
