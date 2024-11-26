@@ -25,7 +25,7 @@ const LeftPannel = ()=>{
         try {
           const token = localStorage.getItem("token");
           const response = await axios.post(
-            "http://127.0.0.1:8000/api/auth/files1",
+            "http://127.0.0.1:8000/api/auth/files2",
             formData,
             {
               headers: {

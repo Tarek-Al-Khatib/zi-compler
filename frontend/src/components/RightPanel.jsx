@@ -8,6 +8,7 @@ const RightPannel = () => {
   const [users, setUsers] = useState([]);
   const [files, setFiles] = useState([]);
   const [collaborations, setCollaborations] = useState([]);
+  const [collaborated, setCollaborated] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [pendingCollaborations, setPendingCollaborations] = useState([]);
@@ -18,6 +19,7 @@ const RightPannel = () => {
     fetchUsers();
     fetchFiles();
     fetchPendingCollaborations();
+    fetchCollaborators();
   }, []);
 
   const fetchFiles = async () => {
@@ -49,6 +51,21 @@ const RightPannel = () => {
     } catch (error) {
         console.error("Error fetching collaborations:", error);
     }
+};
+
+const fetchCollaborators = async () => {
+  try {
+    const token = localStorage.getItem("token"); 
+    const response = await axios.get("http://127.0.0.1:8000/api/user/collaborations", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setCollaborated(response.data.collaborations);
+  } catch (err) {
+    console.error("Error fetching collaborations:", err);
+    setError("Could not fetch collaborations.");
+  }
 };
 
 
@@ -252,9 +269,9 @@ const RightPannel = () => {
 
       <div className="collaborators-list">
         <h3>Collaborators</h3>
-        {collaborations.length > 0 ? (
+        {collaborated.length > 0 ? (
           <ul>
-            {collaborations.map((collab) => (
+            {collaborated.map((collab) => (
               <li key={collab.id}>
                 <p>User: {collab.user ? collab.user.name : 'N/A'}</p>
                 <p>File: {collab.file ? collab.file.name : 'N/A'}</p>
@@ -291,6 +308,22 @@ const RightPannel = () => {
       </ul>
     )}
   </div>
+
+  <div>
+      <h2>Your Collaborations</h2>
+      {collaborations.length === 0 ? (
+        <p>You are not collaborating on any files.</p>
+      ) : (
+        <ul>
+          {collaborations.map((collaboration) => (
+            <li key={collaboration.id}>
+              <strong>File:</strong> {collaboration.file.name} <br />
+              <strong>Role:</strong> {collaboration.role}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
     </div>
   );
 };
