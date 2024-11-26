@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\File;
-// use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class FileController extends Controller{
 
@@ -32,5 +32,18 @@ class FileController extends Controller{
             'file' => $file
         ], 201);
     }
+    
+    public function update_content($id, Request $request)
+    {  
+        
+        $file = File::find($id)->update([
+            'content' => $request->content,
+        ]);
+
+        return response()->json([
+            'message' => 'File updated successfully!',
+        ], 201);
+    }
+
 }
 
