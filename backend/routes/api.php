@@ -25,6 +25,7 @@ Route::group([
   Route::post('/files1', [FileController::class, 'store']);
   Route::get('users', [UserController::class, 'getUsers']);
   Route::get('/collabs',[CollaborationController::class,"get_collaborations"]);
+  Route::put('/{id}',[FileController::class,"update_content"]);
   
 Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
 });
