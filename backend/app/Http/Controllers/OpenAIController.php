@@ -21,7 +21,7 @@ class OpenAIController extends Controller
                     'messages' => [
                         [
                             'role' => 'system',
-                            'content' => 'You are a code debugger. Your task is to provide hints to any code provided to you in Python or other programming languages.',
+                            'content' => 'You are a code debugger. Your task is to provide hints in brief to any code provided to you in Python or other programming languages.',
                         ],
                         [
                             'role' => 'user',

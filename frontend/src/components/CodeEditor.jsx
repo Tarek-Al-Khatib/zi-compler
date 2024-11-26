@@ -78,9 +78,17 @@ const CodeEditor = () => {
   return (
 
       <div className="flex column center compilar">
-        <button className="flex center action-btn white-txt black-bg run-btn" onClick={run}>
-          Run
-        </button>
+        <div className="flex row compilar-heading">
+
+          <button className="flex center action-btn white-txt black-bg run-btn" 
+          onClick={run}>
+            Run
+          </button>
+          <button className="flex center action-btn white-txt black-bg run-btn" 
+          onClick={analyze}>
+            AI Analyzer
+          </button>
+        </div>
         <div className="flex input">
 
           <Editor
