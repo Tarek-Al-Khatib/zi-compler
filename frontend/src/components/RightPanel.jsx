@@ -30,14 +30,18 @@ const RightPannel = () => {
 
   const fetchCollaborations = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/auth/collabs");
-      setCollaborations(response.data.collaborations);
-      console.log("collaborations", response.data.collaborations);
+        const response = await axios.get("http://127.0.0.1:8000/api/auth/collabs", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}` 
+            }
+        });
+        console.log("API Response Data:", response.data);
+        setCollaborations(response.data.collaborations); 
     } catch (error) {
-      console.error("Error fetching collaborations:", error);
-      setError("Unable to fetch collaborations.");
+        console.error("Error fetching collaborations:", error);
     }
-  };
+};
+
 
   const fetchUsers = async () => {
     try {

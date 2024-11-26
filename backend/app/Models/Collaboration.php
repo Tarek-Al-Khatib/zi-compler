@@ -15,7 +15,8 @@ use HasFactory;
 
     protected $fillable = [
         'file_id',  
-        'user_id',  
+        'user_id',
+        'creator_id',  
         'role',     
         'status',   
     ];
@@ -31,4 +32,9 @@ use HasFactory;
     {
         return $this->belongsTo(File::class);
     }
+
+//     public function creator()
+// {
+//     return $this->belongsTo(File::class, 'creator_id');
+// }
 }
