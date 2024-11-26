@@ -7,27 +7,12 @@ import { filesContext } from "../contexts/FileContext";
 
 const LeftPannel = ()=>{
 
-  const { list, setSelectedFile } = useContext(filesContext);
+  const { list, setSelectedFile, getFiles } = useContext(filesContext);
     const [files, setFiles] = useState([]);
     const [formData,setFormData] = useState({
         name: "",
         language: "",
     });
-
-
-    useEffect(() => {
-        fetchFiles();
-      }, []);
-    
-      const fetchFiles = async () => {
-        try {
-          const response = await axios.get("http://127.0.0.1:8000/api/auth/files"); 
-          setFiles(response.data.files);
-          console.log(response.data);
-        } catch (error) {
-          console.error("Error fetching files:", error);
-        }
-      };
 
       const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -91,7 +76,9 @@ const LeftPannel = ()=>{
         </select>
         
         
-        <button type="submit">Add File</button>
+        <button type="submit"
+        onClick={getFiles()}
+        >Add File</button>
       </form>
 
       <div className="file-list">
