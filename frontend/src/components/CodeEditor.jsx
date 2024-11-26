@@ -26,8 +26,27 @@ const CodeEditor = () => {
     editorRef.current = editor;
     editor.focus();
   };
+
+  const updateContent = ()=>{
+    const data = new FormData();
+    data.append("content", code);
+    
+    axios
+      .put(`http://127.0.0.1:8000/api/auth/${selectedFile.id}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("updated successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("error updating the file:", error.response?.data || error.message);
+      });
+  }
   
   const run = async () => {
+    updateContent()
     const code = editorRef.current?.getValue();
     if (!code) return;
 
