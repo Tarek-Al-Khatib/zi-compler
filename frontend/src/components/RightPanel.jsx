@@ -318,7 +318,7 @@ const fetchCollaborators = async () => {
       ) : (
         <ul>
           {collaborations.map((collaboration) => (
-            <li key={collaboration.id} onClick={() => {setSelectedFile(collaboration.file)}}>
+            <li key={collaboration.id} onClick={() => setSelectedFile({ ...collaboration.file, role: collaboration.role })}>
               <strong>File:</strong> {collaboration.file.name} <br />
               <strong>Role:</strong> {collaboration.role}
             </li>
