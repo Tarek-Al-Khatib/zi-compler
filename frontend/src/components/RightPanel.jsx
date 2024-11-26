@@ -41,7 +41,7 @@ const RightPannel = () => {
 
   const fetchCollaborations = async () => {
     try {
-        const response = await axios.get("http://127.0.0.1:8000/api/auth/collabs", {
+        const response = await axios.get("http://127.0.0.1:8000/api/user/collaborations", {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}` 
             }
@@ -56,7 +56,7 @@ const RightPannel = () => {
 const fetchCollaborators = async () => {
   try {
     const token = localStorage.getItem("token"); 
-    const response = await axios.get("http://127.0.0.1:8000/api/user/collaborations", {
+    const response = await axios.get("http://127.0.0.1:8000/api/user/collaborators", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

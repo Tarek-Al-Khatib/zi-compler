@@ -49,8 +49,23 @@ class CollaborationController extends Controller{
 //     ]);
 // }
 
-
 public function getUserCollaborations()
+{
+    $userId = auth()->id(); 
+
+    $collaborations = CollaborationRole::with(['file'])
+        ->where('user_id', $userId)
+        ->where('status', 'accepted')
+        ->get();
+
+    return response()->json([
+        'collaborations' => $collaborations,
+    ]);
+}
+
+
+
+public function getUserCollaborators()
 {
     $userId = auth()->id(); 
 

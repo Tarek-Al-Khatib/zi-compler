@@ -15,6 +15,7 @@ Route::middleware("auth")->get('/user', function (Request $request) {
 Route::middleware(['auth:api'])->group(function () {
   Route::patch('/collaborations/accept/{fileId}/{userId}', [CollaborationController::class, 'accept'])
       ->name('collaborations.accept');
+  Route::get('/user/collaborators', [CollaborationController::class, 'getUserCollaborators']);
   Route::get('/user/collaborations', [CollaborationController::class, 'getUserCollaborations']);
 });
 
