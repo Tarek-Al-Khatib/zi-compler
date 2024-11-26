@@ -7,6 +7,7 @@ use App\Http\Controllers\CollaborationController;
 use App\Http\Controllers\MyEmailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OpenAIController;
 
 Route::middleware("auth")->get('/user', function (Request $request) {
   return $request->user();
@@ -40,4 +41,6 @@ Route::group([
   Route::put('/{id}',[FileController::class,"update_content"]);
 Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
 });
+Route::post('/debugCode',[OpenAIController::class, 'debugCode']);
+
 
