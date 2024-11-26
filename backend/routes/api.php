@@ -22,10 +22,12 @@ Route::group([
   Route::post('refresh', [AuthController::class, "refresh"]);
   Route::post('me',[AuthController::class, "me"]);
   Route::get('/files', [FileController::class, 'get_files']);
-  Route::post('/files1', [FileController::class, 'store']);
+  Route::get('/files1', [FileController::class, 'get_filesId']);
+  Route::post('/files2', [FileController::class, 'store']);
   Route::get('users', [UserController::class, 'getUsers']);
   Route::get('/collabs',[CollaborationController::class,"get_collaborations"]);
-  
+  Route::patch('collaborations/{fileId}/{userId}/role', [CollaborationController::class, 'updateCollaborationRole']);
+
 Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
 });
 

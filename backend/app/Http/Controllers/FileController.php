@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\File;
 
 class FileController extends Controller{
+  
 
     function get_files(){
         $filess = File::all();
@@ -14,7 +16,17 @@ class FileController extends Controller{
             "files"=> $filess
         ]);
     }
+        public function get_filesId(){
+            $userId = auth()->id();
 
+            $files = File::with('user')  
+                ->where('user_id', $userId) 
+                ->get();
+    
+            return response()->json([
+                "files" => $files
+            ]);
+        }
 
     public function store(Request $request)
     {

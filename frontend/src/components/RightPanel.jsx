@@ -20,13 +20,20 @@ const RightPannel = () => {
 
   const fetchFiles = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/auth/files");
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://127.0.0.1:8000/api/auth/files1", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+  
       setFiles(response.data.files); 
     } catch (error) {
       console.error("Error fetching files:", error);
       setError("Unable to fetch files.");
     }
   };
+  
 
   const fetchCollaborations = async () => {
     try {
@@ -119,6 +126,36 @@ const RightPannel = () => {
     }
   };
 
+  const handleRoleChange = async (fileId, userId, newRole) => {
+    try {
+      const token = localStorage.getItem("token");
+  
+      const response = await axios.patch(
+        `http://127.0.0.1:8000/api/auth/collaborations/${fileId}/${userId}/role`,
+        { role: newRole },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      setCollaborations(prevCollaborations =>
+        prevCollaborations.map(collab =>
+          collab.file_id === fileId && collab.user_id === userId
+            ? { ...collab, role: newRole }
+            : collab
+        )
+      );
+  
+      alert("Role updated successfully!");
+    } catch (error) {
+      console.error("Error updating role:", error);
+      setError("Error updating role.");
+    }
+  };
+
 
   return (
     <div>
@@ -170,6 +207,13 @@ const RightPannel = () => {
                 <p>User: {collab.user ? collab.user.name : 'N/A'}</p>
                 <p>File: {collab.file ? collab.file.name : 'N/A'}</p>
                 <p>Role: {collab.role} ({collab.status})</p>
+                <select
+            value={collab.role}
+            onChange={(e) => handleRoleChange(collab.file_id, collab.user_id, e.target.value)}
+          >
+            <option value="editor">Editor</option>
+            <option value="viewer">Viewer</option>
+          </select>
               </li>
             ))}
           </ul>

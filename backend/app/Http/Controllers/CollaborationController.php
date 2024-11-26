@@ -11,8 +11,6 @@ class CollaborationController extends Controller{
     function get_collaborations(){
 
         $userId = auth()->id();
-        \Log::info('Logged in user ID: ' . $userId);
-
         $collaborations = Collaboration::with(['user', 'file'])
         ->where('creator_id', $userId) 
         ->get();
@@ -22,6 +20,9 @@ class CollaborationController extends Controller{
             "collaborations"=> $collaborations
         ]);
     }
+
+
+
 
      function accept($fileId, $userId){
 
