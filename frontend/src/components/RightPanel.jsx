@@ -10,12 +10,14 @@ const RightPannel = () => {
   const [collaborations, setCollaborations] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [pendingCollaborations, setPendingCollaborations] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
     fetchCollaborations();
     fetchUsers();
     fetchFiles();
+    fetchPendingCollaborations();
   }, []);
 
   const fetchFiles = async () => {
@@ -157,6 +159,56 @@ const RightPannel = () => {
   };
 
 
+  const fetchPendingCollaborations = async () => {
+    const token = localStorage.getItem("token");
+  
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/auth/collabsPending",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.data && response.data.pendingCollaborations) {
+        setPendingCollaborations(response.data.pendingCollaborations);
+        console.log(pendingCollaborations);
+        
+      }
+    } catch (error) {
+      console.error("Error fetching pending collaborations:", error);
+      setError("Error fetching pending collaborations.");
+    }
+  };
+
+  const handleAcceptInvitation = async (fileId, userId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.patch(
+        `http://127.0.0.1:8000/api/auth/collaboration-roles/${fileId}/${userId}/role`,
+        { role: "editor" },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.data && response.data.collaboration) {
+        alert("Collaboration accepted!");
+        fetchPendingCollaborations(); 
+      }
+    } catch (error) {
+      console.error("Error accepting collaboration:", error);
+      setError("Error accepting collaboration.");
+    }
+  };
+
+
   return (
     <div>
       <h3>Collaborators</h3>
@@ -221,6 +273,24 @@ const RightPannel = () => {
           <p>No collaborators yet.</p>
         )}
       </div>
+
+      <div>
+    <h3>Pending Invitations</h3>
+    {pendingCollaborations.length === 0 ? (
+      <p>No pending invitations.</p>
+    ) : (
+      <ul>
+        {pendingCollaborations.map((collab) => (
+          <li key={collab.id}>
+            <p>File: {collab.file ? collab.file.name : 'N/A'}</p> has invited you to collaborate.
+            <button onClick={() => handleAcceptInvitation(collab.file_id, collab.user_id)}>
+              Accept Invitation
+            </button>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
     </div>
   );
 };

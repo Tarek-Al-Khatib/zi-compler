@@ -22,6 +22,19 @@ class CollaborationController extends Controller{
         ]);
     }
 
+    public function getPendingCollaborations(Request $request)
+{
+    $userId = auth()->id(); 
+
+    $pendingCollaborations = CollaborationRole::where('user_id', $userId)
+                                              ->where('status', 'pending')
+                                              ->get();
+
+    return response()->json([
+        'pendingCollaborations' => $pendingCollaborations,
+    ]);
+}
+
 
 
     public function updateRoleInCollaboration(Request $request, $fileId, $userId){
@@ -56,34 +69,34 @@ class CollaborationController extends Controller{
     }
     
     
-
-     function accept($fileId, $userId){
-
-        $file = File::find($fileId);
-
-        $creatorId = $file->user_id;
-        
-    $collaboration = Collaboration::where('file_id', $fileId)
-                                  ->where('user_id', $userId)
-                                  ->first();                           
-
-    if ($collaboration) {
-        return redirect()->route('collaborations.success')
-                             ->with('message', 'You have already accepted this collaboration!');
+    public function accept($fileId, $userId)
+    {
+        try {
+            // Find the collaboration record in the collaboration_roles table
+            $collaboration = CollaborationRole::where('file_id', $fileId)
+                ->where('user_id', $userId)
+                ->where('status', 'pending') // Ensure only pending invitations are accepted
+                ->first();
+    
+            // Check if collaboration exists
+            if (!$collaboration) {
+                return response()->json(['error' => 'Collaboration not found or already accepted'], 404);
+            }
+    
+            // Update the status to accepted
+            $collaboration->update([
+                'status' => 'accepted',
+            ]);
+    
+            return response()->json([
+                'message' => 'Collaboration accepted successfully',
+                'collaboration' => $collaboration,
+            ]);
+        } catch (\Exception $e) {
+            // Log and return any exception
+            \Log::error('Error accepting collaboration: ' . $e->getMessage());
+            return response()->json(['error' => 'Something went wrong. Please check the server logs.'], 500);
         }
-
-        
-        $collaborationRole = new CollaborationRole();
-        $collaborationRole->file_id = $fileId;
-        $collaborationRole->user_id = $userId;
-        $collaborationRole->creator_id = $creatorId;
-        $collaborationRole->role = 'editor'; 
-        $collaborationRole->status = 'accepted';
-        // dd($creatorId, $fileId, $userId);
- 
-        $collaborationRole->save();
-
-        return redirect()->route('collaborations.success')
-                         ->with('message', 'You have successfully accepted the collaboration!');
     }
+    
 }

@@ -7,6 +7,7 @@ use App\Mail\CollaborationRequestMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\File;
+use App\Models\CollaborationRole;
 
 class MyEmailController extends Controller{
 
@@ -18,18 +19,14 @@ class MyEmailController extends Controller{
             'senderName' => 'required|string',
             'receiverEmail' => 'required|email',
             'receiverId' => 'required|integer',
+            
         ]);
 
         $fileId = $validated['fileId'];
         $senderName = $validated['senderName'];
         $receiverEmail = $validated['receiverEmail'];
         $receiverId = $validated['receiverId'];
-
-        // $creatorId = Collaboration::where('file_id', $fileId)->value('creator_id');
-
-        // if (!$creatorId) {
-        //     return response()->json(['error' => 'Creator not found for the specified file'], 404);
-        // }
+       
 
         $file = File::find($fileId);
 
@@ -37,7 +34,16 @@ class MyEmailController extends Controller{
         return response()->json(['error' => 'File not found'], 404);
     }
 
-    $creatorId = $file->user_id;
+    $creatorId = auth()->id();
+
+
+    $collaboration = CollaborationRole::create([
+        'file_id' => $fileId,
+        'user_id' => $receiverId,
+        'creator_id' => $creatorId,
+        'role' => 'editor',
+        'status' => 'pending', 
+    ]);
 
         $acceptUrl = route('collaborations.accept', ['fileId' => $fileId, 'userId' => $receiverId, 'creatorId' => $creatorId]);
 

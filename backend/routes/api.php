@@ -26,6 +26,7 @@ Route::group([
   Route::post('/files2', [FileController::class, 'store']);
   Route::get('users', [UserController::class, 'getUsers']);
   Route::get('/collabs',[CollaborationController::class,"get_collaborations"]);
+  Route::get('/collabsPending',[CollaborationController::class,"getPendingCollaborations"]);
   Route::patch('collaboration-roles/{fileId}/{userId}/role', [CollaborationController::class, 'updateRoleInCollaboration']);
 
 Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
