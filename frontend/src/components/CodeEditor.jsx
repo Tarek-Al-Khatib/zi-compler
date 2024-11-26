@@ -75,6 +75,24 @@ const CodeEditor = () => {
     }
   };
 
+  const analyze = ()=>{
+    const data = new FormData();
+    data.append('code',code)
+    axios
+    .post("http://127.0.0.1:8000/api/debugCode", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      setOutput(response.data.choices[0].message.content)
+    })
+    .catch((error) => {
+      console.error("error:", error.response?.data || error.message);
+    });
+
+  }
+
   return (
 
       <div className="flex column center compilar">
