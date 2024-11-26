@@ -131,7 +131,7 @@ const RightPannel = () => {
       const token = localStorage.getItem("token");
   
       const response = await axios.patch(
-        `http://127.0.0.1:8000/api/auth/collaborations/${fileId}/${userId}/role`,
+        `http://127.0.0.1:8000/api/auth/collaboration-roles/${fileId}/${userId}/role`,
         { role: newRole },
         {
           headers: {

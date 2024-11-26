@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Collaboration;
+use App\Models\CollaborationRole;
 use App\Models\User;
 use App\Models\File;
 
@@ -11,7 +12,7 @@ class CollaborationController extends Controller{
     function get_collaborations(){
 
         $userId = auth()->id();
-        $collaborations = Collaboration::with(['user', 'file'])
+        $collaborations = CollaborationRole::with(['user', 'file'])
         ->where('creator_id', $userId) 
         ->get();
 
@@ -23,6 +24,38 @@ class CollaborationController extends Controller{
 
 
 
+    public function updateRoleInCollaboration(Request $request, $fileId, $userId){
+        try {
+            $request->validate([
+                'role' => 'required|in:editor,viewer',
+            ]);
+            $creatorId = auth()->id();
+
+            $collaboration = CollaborationRole::where('file_id', $fileId)
+                ->where('user_id', $userId)
+                ->where('creator_id', $creatorId)
+                ->first();
+
+            if (!$collaboration) {
+                return response()->json(['error' => 'Collaboration not found or you are not the creator'], 404);
+            }
+
+            $collaboration->update([
+                'role' => $request->role,
+            ]);
+    
+            return response()->json([
+                'message' => 'Role updated successfully',
+                'collaboration' => $collaboration,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Something went wrong. Please check the server logs.',
+            ], 500);
+        }
+    }
+    
+    
 
      function accept($fileId, $userId){
 
@@ -39,21 +72,16 @@ class CollaborationController extends Controller{
                              ->with('message', 'You have already accepted this collaboration!');
         }
 
-        $creatorId = Collaboration::where('file_id', $fileId)->value('creator_id');
-
-        // if (!$creatorId) {
-        //     return redirect()->route('collaborations.error')
-        //         ->with('error', 'Creator not found for the specified file!');
-        // }
-
         
-        $collaboration = new Collaboration();
-        $collaboration->file_id = $fileId;
-        $collaboration->user_id = $userId;
-        $collaboration->creator_id = $file->user_id;
-        $collaboration->role = 'editor'; 
-        $collaboration->status = 'accepted'; 
-        $collaboration->save();
+        $collaborationRole = new CollaborationRole();
+        $collaborationRole->file_id = $fileId;
+        $collaborationRole->user_id = $userId;
+        $collaborationRole->creator_id = $creatorId;
+        $collaborationRole->role = 'editor'; 
+        $collaborationRole->status = 'accepted';
+        // dd($creatorId, $fileId, $userId);
+ 
+        $collaborationRole->save();
 
         return redirect()->route('collaborations.success')
                          ->with('message', 'You have successfully accepted the collaboration!');
