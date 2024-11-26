@@ -28,3 +28,21 @@
     margin-top: 25px;  
 }
 
+.navbar .navbar-links {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logout-btn {
+    background-color: antiquewhite;
+    color: black;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .logout-btn:hover {
+    background-color: darkred;
+  }
