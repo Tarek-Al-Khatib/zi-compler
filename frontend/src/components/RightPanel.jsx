@@ -10,34 +10,47 @@ const RightPannel = () => {
   const [collaborations, setCollaborations] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [pendingCollaborations, setPendingCollaborations] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
     fetchCollaborations();
     fetchUsers();
     fetchFiles();
+    fetchPendingCollaborations();
   }, []);
 
   const fetchFiles = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/auth/files");
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://127.0.0.1:8000/api/auth/files1", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+  
       setFiles(response.data.files); 
     } catch (error) {
       console.error("Error fetching files:", error);
       setError("Unable to fetch files.");
     }
   };
+  
 
   const fetchCollaborations = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/auth/collabs");
-      setCollaborations(response.data.collaborations);
-      console.log("collaborations", response.data.collaborations);
+        const response = await axios.get("http://127.0.0.1:8000/api/auth/collabs", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}` 
+            }
+        });
+        console.log("API Response Data:", response.data);
+        setCollaborations(response.data.collaborations); 
     } catch (error) {
-      console.error("Error fetching collaborations:", error);
-      setError("Unable to fetch collaborations.");
+        console.error("Error fetching collaborations:", error);
     }
-  };
+};
+
 
   const fetchUsers = async () => {
     try {
@@ -115,6 +128,86 @@ const RightPannel = () => {
     }
   };
 
+  const handleRoleChange = async (fileId, userId, newRole) => {
+    try {
+      const token = localStorage.getItem("token");
+  
+      const response = await axios.patch(
+        `http://127.0.0.1:8000/api/auth/collaboration-roles/${fileId}/${userId}/role`,
+        { role: newRole },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      setCollaborations(prevCollaborations =>
+        prevCollaborations.map(collab =>
+          collab.file_id === fileId && collab.user_id === userId
+            ? { ...collab, role: newRole }
+            : collab
+        )
+      );
+  
+      alert("Role updated successfully!");
+    } catch (error) {
+      console.error("Error updating role:", error);
+      setError("Error updating role.");
+    }
+  };
+
+
+  const fetchPendingCollaborations = async () => {
+    const token = localStorage.getItem("token");
+  
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/auth/collabsPending",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.data && response.data.pendingCollaborations) {
+        setPendingCollaborations(response.data.pendingCollaborations);
+        console.log(pendingCollaborations);
+        
+      }
+    } catch (error) {
+      console.error("Error fetching pending collaborations:", error);
+      setError("Error fetching pending collaborations.");
+    }
+  };
+
+  const handleAcceptInvitation = async (fileId, userId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.patch(
+        `http://127.0.0.1:8000/api/auth/collaboration-roles/${fileId}/${userId}/role`,
+        { role: "editor" },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.data && response.data.collaboration) {
+        alert("Collaboration accepted!");
+        fetchPendingCollaborations(); 
+      }
+    } catch (error) {
+      console.error("Error accepting collaboration:", error);
+      setError("Error accepting collaboration.");
+    }
+  };
+
 
   return (
     <div>
@@ -166,6 +259,13 @@ const RightPannel = () => {
                 <p>User: {collab.user ? collab.user.name : 'N/A'}</p>
                 <p>File: {collab.file ? collab.file.name : 'N/A'}</p>
                 <p>Role: {collab.role} ({collab.status})</p>
+                <select
+            value={collab.role}
+            onChange={(e) => handleRoleChange(collab.file_id, collab.user_id, e.target.value)}
+          >
+            <option value="editor">Editor</option>
+            <option value="viewer">Viewer</option>
+          </select>
               </li>
             ))}
           </ul>
@@ -173,6 +273,24 @@ const RightPannel = () => {
           <p>No collaborators yet.</p>
         )}
       </div>
+
+      <div>
+    <h3>Pending Invitations</h3>
+    {pendingCollaborations.length === 0 ? (
+      <p>No pending invitations.</p>
+    ) : (
+      <ul>
+        {pendingCollaborations.map((collab) => (
+          <li key={collab.id}>
+            <p>File: {collab.file ? collab.file.name : 'N/A'}</p> has invited you to collaborate.
+            <button onClick={() => handleAcceptInvitation(collab.file_id, collab.user_id)}>
+              Accept Invitation
+            </button>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
     </div>
   );
 };
