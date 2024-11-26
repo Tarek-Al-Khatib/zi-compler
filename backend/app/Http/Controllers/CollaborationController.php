@@ -35,6 +35,53 @@ class CollaborationController extends Controller{
     ]);
 }
 
+// public function getUserCollaborations()
+// {
+//     $userId = auth()->id(); 
+
+//     $collaborations = CollaborationRole::with(['file', 'user'])
+//         ->where('user_id', $userId)
+//         ->where('status', 'accepted') 
+//         ->get();
+
+//     return response()->json([
+//         'collaborations' => $collaborations,
+//     ]);
+// }
+
+public function getUserCollaborations()
+{
+    $userId = auth()->id(); 
+
+    $collaborations = CollaborationRole::with(['file'])
+        ->where('user_id', $userId)
+        ->where('status', 'accepted')
+        ->get();
+
+    return response()->json([
+        'collaborations' => $collaborations,
+    ]);
+}
+
+
+
+public function getUserCollaborators()
+{
+    $userId = auth()->id(); 
+
+    $collaborations = CollaborationRole::with(['file', 'user'])
+        ->whereHas('file', function ($query) use ($userId) {
+            $query->where('creator_id', $userId);
+        })
+        ->where('status', 'accepted') 
+        ->get();
+
+    return response()->json([
+        'collaborations' => $collaborations,
+    ]);
+}
+
+
 
 
     public function updateRoleInCollaboration(Request $request, $fileId, $userId){

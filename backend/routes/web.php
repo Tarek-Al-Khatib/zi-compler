@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MyEmailController;
 use App\Http\Controllers\CollaborationController;
 
@@ -9,15 +10,23 @@ Route::get('/', function () {
 });
 
 
-Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
-
-Route::get('/collaborations/accept/{fileId}/{userId}', [CollaborationController::class, 'accept'])
-    ->name('collaborations.accept');
-
-Route::get('/collaborations/success', function () {
-    return view('collaborations.success');
-})->name('collaborations.success');
 
 
 
+Route::group([
+    'middleware' => 'web',
+    'prefix' => 'auth'
+  ], function ($router) {
+    Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
 
+    Route::get('/collaborations/accept/{fileId}/{userId}', [CollaborationController::class, 'accept'])
+        ->name('collaborations.accept');
+    
+    Route::get('/collaborations/success', function () {
+        return view('collaborations.success');
+    })->name('collaborations.success');
+    
+    
+  });
+  
+  
