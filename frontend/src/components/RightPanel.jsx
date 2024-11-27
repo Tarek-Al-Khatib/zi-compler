@@ -217,11 +217,10 @@ const fetchCollaborators = async () => {
 
   return (
     <div>
-      <h3>Add Collaborators</h3>
-
+      <h2 className="flex center blue-txt">Collabs</h2>
+      <h4 className=" "> &gt; Add Collaborator</h4>
       <div>
-        <label>Select File</label>
-        <select onChange={handleFileChange} value={selectedFilee ? selectedFilee.id : ""}>
+        <select className="vs-bg white-txt" onChange={handleFileChange} value={selectedFilee ? selectedFilee.id : ""}>
           <option value="">Select a file</option>
           {files.length > 0 ? (
             files.map((file) => (
@@ -236,8 +235,7 @@ const fetchCollaborators = async () => {
       </div>
 
       <div>
-        <label>Select User</label>
-        <select onChange={handleUserChange} value={selectedUser ? selectedUser.id : ""}>
+        <select className="vs-bg white-txt" onChange={handleUserChange} value={selectedUser ? selectedUser.id : ""}>
           <option value="">Select a user</option>
           {users.length > 0 ? (
             users.map((user) => (
@@ -253,11 +251,12 @@ const fetchCollaborators = async () => {
 
 
       <div>
-        <button onClick={handleCollaborate}>Invite to Collaborate</button>
+        <button className="blue-bg" onClick={handleCollaborate}>
+          Invite</button>
       </div>
 
       <div className="collaborators-list">
-        <h3>Collaborators</h3>
+        <h4> &gt; Collaborators</h4>
         {collaborated.length > 0 ? (
           <ul>
             {collaborated.map((collab) => (
