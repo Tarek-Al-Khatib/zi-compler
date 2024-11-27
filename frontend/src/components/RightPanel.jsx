@@ -258,17 +258,22 @@ const fetchCollaborators = async () => {
       <div className="collaborators-list">
         <h4> &gt; Collaborators</h4>
         {collaborated.length > 0 ? (
-          <ul>
+          <ul
+          className="flex column center"
+          >
             {collaborated.map((collab) => (
-              <li key={collab.id}>
+              <li key={collab.id}
+              className="flex column vs-bg white-txt"
+              >
                 <p>User: {collab.user ? collab.user.name : 'N/A'}</p>
                 <p>File: {collab.file ? collab.file.name : 'N/A'}</p>
-                <p>Role: {collab.role} ({collab.status})</p>
+                {/* <p>Role: {collab.role} ({collab.status})</p> */}
                 <select
+                className="vs-bg white-txt"
             value={collab.role}
             onChange={(e) => handleRoleChange(collab.file_id, collab.user_id, e.target.value)}
           >
-            <option value="editor">Editor</option>
+            <option value="editor ">Editor</option>
             <option value="viewer">Viewer</option>
           </select>
               </li>

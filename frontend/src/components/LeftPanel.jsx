@@ -67,7 +67,7 @@ const LeftPannel = ()=>{
           name="language"
           value={formData.language}
           onChange={handleInputChange}
-          className="vs-bg white-txt"
+          className="vs-bg dim-txt"
         >
             <option value="javascript">Language</option>
           <option value="javascript">JavaScript</option>
@@ -78,14 +78,14 @@ const LeftPannel = ()=>{
         
         
         <button type="submit"
-        className="blue-bg"
+        className="blue-bg dim-txt"
         onClick={getFiles()}
         >Add File</button>
       </form>
 
       <div className="file-list">
         <h4 className=""> &gt; Files</h4>
-        <ul>
+        <ul className="dim-txt">
           {list.map((file) => (
             <li key={file.id} 
             

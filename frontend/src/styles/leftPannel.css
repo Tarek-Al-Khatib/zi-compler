@@ -110,11 +110,17 @@
   
   .collaborators-list li {
     padding: 10px;
-    background-color: #e9ecef;
+    /* background-color: #e9ecef; */
     margin: 5px 10px;
-    cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+    width: 200px;
+  }
+  .collaborators-list select:hover {
+    cursor: pointer;
+  }
+  .collaborators-list p {
+    color: #d3d3d3;
   }
   h4{
     font-size: 16px;
