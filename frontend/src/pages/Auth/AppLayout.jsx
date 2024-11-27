@@ -7,18 +7,11 @@ import LeftPannel from "../../components/LeftPanel";
 import RightPanel from "../../components/RightPanel";
 import CodeEditor from "../../components/CodeEditor";
 
-const AppLayout = () =>{
-
-
-
-
-
-    return(
-
-     <div className="layouts">
-        {/* <Navbar/> */}
-        <div className="container">
-                
+const AppLayout = () => {
+  return (
+    <div className="layouts">
+      {/* <Navbar/> */}
+      <div className="container">
         <div className="left-panel">
           <LeftPannel />
         </div>
