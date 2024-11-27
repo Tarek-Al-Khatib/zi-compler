@@ -52,7 +52,7 @@ const LeftPannel = ()=>{
 <div>
     <form onSubmit={handleSubmit}>
         <h2 className="flex center">Files</h2>
-        <h4> &gt; Add New File</h4>
+        <h4> &gt; New File</h4>
         <input
         className="vs-bg white-txt"
           type="text"
