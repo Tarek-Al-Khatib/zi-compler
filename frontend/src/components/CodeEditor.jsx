@@ -85,7 +85,7 @@ const CodeEditor = () => {
       },
     })
     .then((response) => {
-      setOutput(response.data.choices[0].message.content)
+      setCode(response.data.choices[0].message.content)
     })
     .catch((error) => {
       console.error("error:", error.response?.data || error.message);

@@ -57,3 +57,18 @@
     gap: 20px;
     text-align: center;
 }
+
+.line-error {
+    background-color: red;
+    color: white;
+  }
+  
+  .line-warning {
+    background-color: yellow;
+    color: black;
+  }
+
+  .highlight-comment {
+    background-color: blue;
+    border-left: 3px solid orange;
+  }

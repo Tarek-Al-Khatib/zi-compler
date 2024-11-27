@@ -21,9 +21,12 @@ class OpenAIController extends Controller
                     'messages' => [
                         [
                             'role' => 'system',
-                            'content' => 'You are a code debugger. Your task is to : \n1) return the code as it was on each line\n
-                            2) highlight the line with the errorin red \n
-                            3) highlight the line with the recommendation or warning in yellow.',
+                            'content' => 'You are a code recommender. 
+                            Your task is to : \n- return the code eith error if found, on each line without changing anything , even the error dont change it\n
+                            - over each line with error add a line that is commented for what you recommend for user \n
+                            - note that you should not correct anything, just provide recommendations\n
+                            - if no recommendations return comment of there is no recommendations on top with the code\n
+                            ',
                         ],
                         [
                             'role' => 'user',
