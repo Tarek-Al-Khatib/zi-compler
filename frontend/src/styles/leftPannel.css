@@ -15,8 +15,7 @@
 
   .left-panel {
     
-    width: 25%; 
-    background-color: #f5f5f5; 
+    width: 15%; 
     border-right: 1px solid #ccc;
     display: flex;
     flex-direction: column;
@@ -25,7 +24,7 @@
   
  
   .middle-panel {
-    width: 50%;
+    width: 70%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -37,12 +36,14 @@
   
  
   .right-panel {
-    width: 25%; 
-    background-color: #f5f5f5;
+    width: 15%; 
+    /* background-color: #f5f5f5; */
     border-left: 1px solid #ccc;
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    
+    
   }
 
  
@@ -71,16 +72,16 @@
   }
   
   button {
-    background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
     font-weight: bold;
+    transition: all 0.3s;
   }
   
   button:hover {
-    background-color: #0056b3;
-  }
+    opacity: 0.7;
+    cursor: pointer;  }
   
   .file-list ul {
     list-style-type: none;
@@ -89,7 +90,7 @@
   
   .file-list li {
     padding: 10px;
-    background-color: #e9ecef;
+    background-color: #1e1e1e;
     margin: 5px 0;
     cursor: pointer;
     border-radius: 5px;
@@ -97,7 +98,7 @@
   }
   
   .file-list li:hover {
-    background-color: #ced4da;
+    background-color: #3a3a3a;
   }
   
 
@@ -114,4 +115,13 @@
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+  }
+  h4{
+    font-size: 16px;
+    margin-top: 20px;
+    
+  }
+
+  h2{
+    border-bottom: 2px solid #0061c0;
   }
