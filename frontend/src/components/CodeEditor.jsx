@@ -79,14 +79,38 @@ const CodeEditor = () => {
     }
   };
 
+  const analyze = ()=>{
+    const data = new FormData();
+    data.append('code',code)
+    axios
+    .post("http://127.0.0.1:8000/api/debugCode", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      setCode(response.data.choices[0].message.content)
+    })
+    .catch((error) => {
+      console.error("error:", error.response?.data || error.message);
+    });
+
+  }
+
   return (
 
       <div className="flex column center compilar">
-        {!isViewer && (
-        <button className="flex center action-btn white-txt black-bg run-btn" onClick={run}>
-          Run
-        </button>
-      )}
+        <div className="flex row compilar-heading">
+          {!isViewer && (
+          <button className="flex center action-btn white-txt black-bg run-btn" onClick={run}>
+            Run
+          </button>
+        )}
+          <button className="flex center action-btn white-txt black-bg run-btn" 
+          onClick={analyze}>
+            AI Analyzer
+          </button>
+        </div>
         <div className="flex input">
 
           <Editor

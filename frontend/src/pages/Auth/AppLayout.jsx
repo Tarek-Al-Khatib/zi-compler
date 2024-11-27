@@ -16,7 +16,7 @@ const AppLayout = () =>{
     return(
 
      <div className="layouts">
-        <Navbar/>
+        {/* <Navbar/> */}
         <div className="container">
                 
         <div className="left-panel">
