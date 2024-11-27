@@ -8,12 +8,16 @@ const CodeEditor = () => {
   const editorRef = useRef();
   const [code, setCode] = useState(null);
   const [output, setOutput] = useState("Run code for output");
+  const [isViewer, setIsViewer] = useState(false);
 
 
 
-  useEffect(()=>{
-    setCode(selectedFile?.content || null)
-  },[selectedFile])
+  useEffect(() => {
+    if (selectedFile) {
+      setCode(selectedFile?.content || null);
+      setIsViewer(selectedFile?.role === "viewer"); 
+    }
+  }, [selectedFile]);
 
   
   const formatErrorMessage = (error) => {
@@ -97,11 +101,11 @@ const CodeEditor = () => {
 
       <div className="flex column center compilar">
         <div className="flex row compilar-heading">
-
-          <button className="flex center action-btn white-txt black-bg run-btn" 
-          onClick={run}>
+          {!isViewer && (
+          <button className="flex center action-btn white-txt black-bg run-btn" onClick={run}>
             Run
           </button>
+        )}
           <button className="flex center action-btn white-txt black-bg run-btn" 
           onClick={analyze}>
             AI Analyzer
@@ -116,6 +120,7 @@ const CodeEditor = () => {
             value={code}
             onChange={(newCode) => setCode(newCode)}
             onMount={onMount}
+            options={{ readOnly: isViewer }}
           />
         </div>
 

@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
 import axios from "axios";
 import "../styles/leftPannel.css";
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../base/navbar';
+import { filesContext } from "../contexts/FileContext";
 
 const RightPannel = () => {
+  const { list, setSelectedFile, getFiles,fetchCollaborations,collaborations,setCollaborations } = useContext(filesContext);
   const [users, setUsers] = useState([]);
   const [files, setFiles] = useState([]);
-  const [collaborations, setCollaborations] = useState([]);
+  // const [collaborations, setCollaborations] = useState([]);
   const [collaborated, setCollaborated] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFilee, setSelectedFilee] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [pendingCollaborations, setPendingCollaborations] = useState([]);
   const [error, setError] = useState("");
@@ -38,20 +40,6 @@ const RightPannel = () => {
     }
   };
   
-
-  const fetchCollaborations = async () => {
-    try {
-        const response = await axios.get("http://127.0.0.1:8000/api/user/collaborations", {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}` 
-            }
-        });
-        console.log("API Response Data:", response.data);
-        setCollaborations(response.data.collaborations); 
-    } catch (error) {
-        console.error("Error fetching collaborations:", error);
-    }
-};
 
 const fetchCollaborators = async () => {
   try {
@@ -82,7 +70,7 @@ const fetchCollaborators = async () => {
 
   const handleFileChange = (e) => {
     const fileId = e.target.value;
-    setSelectedFile(files.find((file) => file.id === parseInt(fileId))); 
+    setSelectedFilee(files.find((file) => file.id === parseInt(fileId))); 
   };
 
   const handleUserChange = (e) => {
@@ -93,7 +81,7 @@ const fetchCollaborators = async () => {
 
 
   const handleCollaborate = async () => {
-    if (!selectedFile || !selectedUser) {
+    if (!selectedFilee || !selectedUser) {
       setError("Please select both a file and a user to collaborate.");
       return;
     }
@@ -110,7 +98,7 @@ const fetchCollaborators = async () => {
       const token = localStorage.getItem("token");
 
       console.log({
-        fileId: selectedFile.id,
+        fileId: selectedFilee.id,
         senderName: senderName,
         receiverEmail: selectedUser.email,
         receiverId: selectedUser.id,
@@ -119,7 +107,7 @@ const fetchCollaborators = async () => {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/auth/sendColabos",
         {
-          fileId: selectedFile.id,
+          fileId: selectedFilee.id,
           senderName: senderName, 
           receiverEmail: selectedUser.email,
           receiverId: selectedUser.id,
@@ -218,6 +206,7 @@ const fetchCollaborators = async () => {
       if (response.data && response.data.collaboration) {
         alert("Collaboration accepted!");
         fetchPendingCollaborations(); 
+        fetchCollaborators();
       }
     } catch (error) {
       console.error("Error accepting collaboration:", error);
@@ -228,11 +217,11 @@ const fetchCollaborators = async () => {
 
   return (
     <div>
-      <h3>Collaborators</h3>
+      <h3>Add Collaborators</h3>
 
       <div>
         <label>Select File</label>
-        <select onChange={handleFileChange} value={selectedFile ? selectedFile.id : ""}>
+        <select onChange={handleFileChange} value={selectedFilee ? selectedFilee.id : ""}>
           <option value="">Select a file</option>
           {files.length > 0 ? (
             files.map((file) => (
@@ -309,14 +298,14 @@ const fetchCollaborators = async () => {
     )}
   </div>
 
-  <div>
+  <div className="file-list">
       <h2>Your Collaborations</h2>
       {collaborations.length === 0 ? (
         <p>You are not collaborating on any files.</p>
       ) : (
         <ul>
           {collaborations.map((collaboration) => (
-            <li key={collaboration.id}>
+            <li key={collaboration.id} onClick={() => setSelectedFile({ ...collaboration.file, role: collaboration.role })}>
               <strong>File:</strong> {collaboration.file.name} <br />
               <strong>Role:</strong> {collaboration.role}
             </li>
