@@ -7,24 +7,45 @@ use App\Mail\CollaborationRequestMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\File;
+use App\Models\CollaborationRole;
 
 class MyEmailController extends Controller{
 
     public function sendCollabo(Request $request)
     {
         $validated = $request->validate([
+            
             'fileId' => 'required|integer',
             'senderName' => 'required|string',
             'receiverEmail' => 'required|email',
             'receiverId' => 'required|integer',
+            
         ]);
 
         $fileId = $validated['fileId'];
         $senderName = $validated['senderName'];
         $receiverEmail = $validated['receiverEmail'];
         $receiverId = $validated['receiverId'];
+       
 
-        $acceptUrl = route('collaborations.accept', ['fileId' => $fileId, 'userId' => $receiverId]);
+        $file = File::find($fileId);
+
+    if (!$file) {
+        return response()->json(['error' => 'File not found'], 404);
+    }
+
+    $creatorId = auth()->id();
+
+
+    $collaboration = CollaborationRole::create([
+        'file_id' => $fileId,
+        'user_id' => $receiverId,
+        'creator_id' => $creatorId,
+        'role' => 'editor',
+        'status' => 'pending', 
+    ]);
+
+        $acceptUrl = route('collaborations.accept', ['fileId' => $fileId, 'userId' => $receiverId, 'creatorId' => $creatorId]);
 
         Mail::to($receiverEmail)
             ->send(new CollaborationRequestMail($senderName, $acceptUrl));

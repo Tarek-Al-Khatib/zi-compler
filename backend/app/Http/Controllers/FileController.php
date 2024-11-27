@@ -3,34 +3,40 @@
 namespace App\Http\Controllers;
 use App\Events\FileContentUpdated;
 use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\File;
+use Illuminate\Support\Facades\Auth;
 
 class FileController extends Controller{
+  
 
     function get_files(){
-        $filess = File::all();
+        $files = File::where('user_id', auth()->id())->get();
 
         return response()->json([
-            "files"=> $filess
+            "files"=> $files
         ]);
     }
+        public function get_filesId(){
+            $userId = auth()->id();
 
+            $files = File::with('user')  
+                ->where('user_id', $userId) 
+                ->get();
+    
+            return response()->json([
+                "files" => $files
+            ]);
+        }
 
     public function store(Request $request)
-    {
+    {  
         
-       $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'language' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
-
-       
         $file = File::create([
-            'name' => $validated['name'],
-            'language' => $validated['language'],
-            'content' => $validated['content'],
-            'user_id' => auth()->id(), 
+            'user_id' => auth()->id(),
+            'name' => $request->name,
+            'language' =>$request->language,
+            'content' =>""
         ]);
 
         return response()->json([
@@ -38,7 +44,6 @@ class FileController extends Controller{
             'file' => $file
         ], 201);
     }
-
 
     public function update(Request $request)
     {
@@ -55,5 +60,6 @@ class FileController extends Controller{
 
         return response()->json(['status' => 'success']);
     }
+
 }
 

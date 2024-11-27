@@ -1,32 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
 import axios from "axios";
 import "../styles/leftPannel.css"
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../base/navbar';
-
+import { filesContext } from "../contexts/FileContext";
 
 const LeftPannel = ()=>{
+
+  const { list, setSelectedFile, getFiles } = useContext(filesContext);
     const [files, setFiles] = useState([]);
     const [formData,setFormData] = useState({
         name: "",
         language: "",
-        content: "",
     });
-
-
-    useEffect(() => {
-        fetchFiles();
-      }, []);
-    
-      const fetchFiles = async () => {
-        try {
-          const response = await axios.get("http://127.0.0.1:8000/api/auth/files"); 
-          setFiles(response.data.files);
-          console.log(response.data);
-        } catch (error) {
-          console.error("Error fetching files:", error);
-        }
-      };
 
       const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -39,7 +25,7 @@ const LeftPannel = ()=>{
         try {
           const token = localStorage.getItem("token");
           const response = await axios.post(
-            "http://127.0.0.1:8000/api/auth/files1",
+            "http://127.0.0.1:8000/api/auth/files2",
             formData,
             {
               headers: {
@@ -48,7 +34,7 @@ const LeftPannel = ()=>{
             }
           );
           setFiles((prev) => [...prev, response.data.file]);
-          setFormData({ name: "", language: "", content: "" });
+          setFormData({ name: "", language: ""});
         } catch (error) {
           if (error.response) {
             console.error("API Error:", error.response.data); 
@@ -89,23 +75,17 @@ const LeftPannel = ()=>{
           <option value="cpp">C++</option>
         </select>
         
-        <label>Content:</label>
-        <textarea
-          name="content"
-          value={formData.content}
-          onChange={handleInputChange}
-          placeholder="Write your code here"
-          required
-        ></textarea>
         
-        <button type="submit">Add File</button>
+        <button type="submit"
+        onClick={getFiles()}
+        >Add File</button>
       </form>
 
       <div className="file-list">
         <h3>Existing Files</h3>
         <ul>
-          {files.map((file) => (
-            <li key={file.id} onClick={() => console.log("Load file:", file)}>
+          {list.map((file) => (
+            <li key={file.id} onClick={() => {setSelectedFile(file)}}>
               {file.name} ({file.language})
             </li>
           ))}
