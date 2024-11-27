@@ -217,7 +217,7 @@ const fetchCollaborators = async () => {
 
   return (
     <div>
-      <h2 className="flex center blue-txt">Collabs</h2>
+      <h2 className="flex center">Collabs</h2>
       <h4 className=" "> &gt; Add Collaborator</h4>
       <div>
         <select className="vs-bg white-txt" onChange={handleFileChange} value={selectedFilee ? selectedFilee.id : ""}>
