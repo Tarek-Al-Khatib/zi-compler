@@ -45,9 +45,9 @@ class FileController extends Controller{
         ], 201);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $file = File::findOrFail($request->fileId);
+        $file = File::findOrFail($id);
         $file->content = $request->content;
         $file->save();
 

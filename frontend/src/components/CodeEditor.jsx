@@ -10,31 +10,29 @@ const CodeEditor = () => {
   const [output, setOutput] = useState("Run code for output");
   const [isViewer, setIsViewer] = useState(false);
 
-
-
   useEffect(() => {
     if (selectedFile) {
       setCode(selectedFile?.content || null);
-      setIsViewer(selectedFile?.role === "viewer"); 
+      setIsViewer(selectedFile?.role === "viewer");
     }
   }, [selectedFile]);
 
-  
   const formatErrorMessage = (error) => {
-    const format = error.indexOf("line")
+    const format = error.indexOf("line");
 
-    return error.substring(format)
+    return error.substring(format);
   };
-  
+
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
   };
 
-  const updateContent = ()=>{
+  const updateContent = (newCode) => {
+    setCode(newCode);
     const data = new FormData();
     data.append("content", code);
-    
+
     axios
       .put(`http://127.0.0.1:8000/api/auth/${selectedFile.id}`, data, {
         headers: {
@@ -45,12 +43,15 @@ const CodeEditor = () => {
         console.log("updated successfully:", response.data);
       })
       .catch((error) => {
-        console.error("error updating the file:", error.response?.data || error.message);
+        console.error(
+          "error updating the file:",
+          error.response?.data || error.message
+        );
       });
-  }
-  
+  };
+
   const run = async () => {
-    updateContent()
+    updateContent();
     const code = editorRef.current?.getValue();
     if (!code) return;
 
@@ -72,64 +73,65 @@ const CodeEditor = () => {
         ],
       });
 
-      setOutput(response.data.run.stdout || formatErrorMessage(response.data.run.stderr));
+      setOutput(
+        response.data.run.stdout || formatErrorMessage(response.data.run.stderr)
+      );
     } catch (error) {
-      console.error("Error Details:",error.message);
-      setOutput("Error: " + (error.message));
+      console.error("Error Details:", error.message);
+      setOutput("Error: " + error.message);
     }
   };
 
-  const analyze = ()=>{
+  const analyze = () => {
     const data = new FormData();
-    data.append('code',code)
+    data.append("code", code);
     axios
-    .post("http://127.0.0.1:8000/api/debugCode", data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then((response) => {
-      setCode(response.data.choices[0].message.content)
-    })
-    .catch((error) => {
-      console.error("error:", error.response?.data || error.message);
-    });
-
-  }
+      .post("http://127.0.0.1:8000/api/debugCode", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        setCode(response.data.choices[0].message.content);
+      })
+      .catch((error) => {
+        console.error("error:", error.response?.data || error.message);
+      });
+  };
 
   return (
-
-      <div className="flex column center compilar">
-        <div className="flex row compilar-heading">
-          {!isViewer && (
-          <button className="flex center action-btn white-txt black-bg run-btn" onClick={run}>
+    <div className="flex column center compilar">
+      <div className="flex row compilar-heading">
+        {!isViewer && (
+          <button
+            className="flex center action-btn white-txt black-bg run-btn"
+            onClick={run}
+          >
             Run
           </button>
         )}
-          <button className="flex center action-btn white-txt black-bg run-btn" 
-          onClick={analyze}>
-            AI Analyzer
-          </button>
-        </div>
-        <div className="flex input">
-
-          <Editor
-            defaultLanguage="python"
-            defaultValue="# start code"
-            theme="vs-dark"
-            value={code}
-            onChange={(newCode) => setCode(newCode)}
-            onMount={onMount}
-            options={{ readOnly: isViewer }}
-          />
-        </div>
-
-        <p className="black-txt">Output</p>
-        <div className="flex vs-bg output white-txt">
-          {output}
-        </div>
+        <button
+          className="flex center action-btn white-txt black-bg run-btn"
+          onClick={analyze}
+        >
+          AI Analyzer
+        </button>
+      </div>
+      <div className="flex input">
+        <Editor
+          defaultLanguage="python"
+          defaultValue="# start code"
+          theme="vs-dark"
+          value={code}
+          onChange={(newCode) => updateContent(newCode)}
+          onMount={onMount}
+          options={{ readOnly: isViewer }}
+        />
       </div>
 
+      <p className="black-txt">Output</p>
+      <div className="flex vs-bg output white-txt">{output}</div>
+    </div>
   );
 };
 
