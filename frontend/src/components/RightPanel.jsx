@@ -265,8 +265,8 @@ const fetchCollaborators = async () => {
               <li key={collab.id}
               className="flex column vs-bg white-txt"
               >
-                <p>User: {collab.user ? collab.user.name : 'N/A'}</p>
-                <p>File: {collab.file ? collab.file.name : 'N/A'}</p>
+                <p><strong>User:</strong> {collab.user ? collab.user.name : 'N/A'}</p>
+                <p><strong>File:</strong> {collab.file ? collab.file.name : 'N/A'}</p>
                 {/* <p>Role: {collab.role} ({collab.status})</p> */}
                 <select
                 className="vs-bg white-txt"
@@ -285,9 +285,9 @@ const fetchCollaborators = async () => {
       </div>
 
       <div>
-    <h3>Pending Invitations</h3>
+    <h4> &gt; My Pending Invitations</h4>
     {pendingCollaborations.length === 0 ? (
-      <p>No pending invitations.</p>
+      <p className="dim-txt">No pending invitations.</p>
     ) : (
       <ul>
         {pendingCollaborations.map((collab) => (
@@ -303,7 +303,7 @@ const fetchCollaborators = async () => {
   </div>
 
   <div className="file-list">
-      <h2>Your Collaborations</h2>
+      <h4> &gt; My Collaborations</h4>
       {collaborations.length === 0 ? (
         <p>You are not collaborating on any files.</p>
       ) : (
