@@ -38,7 +38,8 @@ Route::group([
   Route::get('/collabsPending',[CollaborationController::class,"getPendingCollaborations"]);
   Route::patch('collaboration-roles/{fileId}/{userId}/role', [CollaborationController::class, 'updateRoleInCollaboration']);
   Route::patch('collaboration-status/{fileId}/{userId}/role', [CollaborationController::class, 'updateRoleInCollaboration']);
-  Route::put('/{id}',[FileController::class,"update_content"]);
+  Route::put('/{id}',[FileController::class,"update"]);
+
 Route::post('/sendColabos', [MyEmailController::class, 'sendCollabo']);
 });
 Route::post('/debugCode',[OpenAIController::class, 'debugCode']);
