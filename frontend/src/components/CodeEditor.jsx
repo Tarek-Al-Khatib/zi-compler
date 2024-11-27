@@ -1,12 +1,14 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
+import Pusher from "pusher-js";
 import { filesContext } from "../contexts/FileContext";
 
 const CodeEditor = () => {
   const { selectedFile } = useContext(filesContext);
   const editorRef = useRef();
   const [code, setCode] = useState(null);
+  const [cursors, setCursors] = useState({});
   const [output, setOutput] = useState("Run code for output");
   const [isViewer, setIsViewer] = useState(false);
 
@@ -15,6 +17,25 @@ const CodeEditor = () => {
       setCode(selectedFile?.content || null);
       setIsViewer(selectedFile?.role === "viewer");
     }
+  }, [selectedFile]);
+
+  useEffect(() => {
+    const pusher = new Pusher("90700eb534538226cdab", {
+      cluster: "eu",
+    });
+
+    const channel = pusher.subscribe(`file.${selectedFile.id}`);
+    channel.bind("FileContentUpdated", (data) => {
+      setCode(data.content);
+      setCursors((prev) => ({
+        ...prev,
+        [data.userId]: data.cursorPosition,
+      }));
+    });
+
+    return () => {
+      pusher.unsubscribe(`file.${selectedFile.id}`);
+    };
   }, [selectedFile]);
 
   const formatErrorMessage = (error) => {
