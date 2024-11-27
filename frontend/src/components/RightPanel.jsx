@@ -293,7 +293,7 @@ const fetchCollaborators = async () => {
         {pendingCollaborations.map((collab) => (
           <li key={collab.id}>
             <p>File: {collab.file ? collab.file.name : 'N/A'}</p> has invited you to collaborate.
-            <button onClick={() => handleAcceptInvitation(collab.file_id, collab.user_id)}>
+            <button className="blue-bg" onClick={() => handleAcceptInvitation(collab.file_id, collab.user_id)}>
               Accept Invitation
             </button>
           </li>
