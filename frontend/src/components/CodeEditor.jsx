@@ -123,38 +123,36 @@ const CodeEditor = () => {
   };
 
   return (
-      <div className="flex column compilar">
-        <div className="flex row compilar-heading">
-          {!isViewer && (
-          <button className="flex center action-btn compilar-bg run-btn " onClick={run}>
+    <div className="flex column compilar">
+      <div className="flex row compilar-heading">
+        {!isViewer && (
+          <button
+            className="flex center action-btn compilar-bg run-btn "
+            onClick={run}
+          >
             Run
           </button>
         )}
-          <button className="flex center action-btn compilar-bg run-btn" 
-          onClick={analyze}>
-            AI Analyzer
-          </button>
-        </div>
-        <div className="flex input">
-
-          <Editor
-            defaultLanguage="python"
-            defaultValue="# start code"
-            theme="vs-dark"
-            value={code}
-            onChange={(newCode) => setCode(newCode)}
-            onMount={onMount}
-            options={{ readOnly: isViewer }}
-          />
-        </div>
-        
-        <div className="black-txt output-header">Output</div>
-        <div className="flex vs-bg output white-txt">
-          {output}
-        </div>
+        <button
+          className="flex center action-btn compilar-bg run-btn"
+          onClick={analyze}
+        >
+          AI Analyzer
+        </button>
+      </div>
+      <div className="flex input">
+        <Editor
+          defaultLanguage="python"
+          defaultValue="# start code"
+          theme="vs-dark"
+          value={code}
+          onChange={(newCode) => setCode(newCode)}
+          onMount={onMount}
+          options={{ readOnly: isViewer }}
+        />
       </div>
 
-      <p className="black-txt">Output</p>
+      <div className="black-txt output-header">Output</div>
       <div className="flex vs-bg output white-txt">{output}</div>
     </div>
   );
