@@ -42,48 +42,49 @@ const LeftPannel = () => {
     }
   };
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h3>Add New File</h3>
-        <label>File Name:</label>
+    return(
+        
+
+<div>
+    <form onSubmit={handleSubmit}>
+        <h2 className="flex center">Files</h2>
+        <h4> &gt; New File</h4>
         <input
+        className="vs-bg white-txt"
           type="text"
           name="name"
           value={formData.name}
           onChange={handleInputChange}
-          placeholder="Enter file name"
+          placeholder="File name"
           required
         />
-
-        <label>Language:</label>
         <select
           name="language"
           value={formData.language}
           onChange={handleInputChange}
+          className="vs-bg dim-txt"
         >
-          <option value="javascript">Select below</option>
+            <option value="javascript">Language</option>
           <option value="javascript">JavaScript</option>
           <option value="python">Python</option>
           <option value="java">Java</option>
           <option value="cpp">C++</option>
         </select>
-
-        <button type="submit" onClick={getFiles()}>
-          Add File
-        </button>
+        
+        
+        <button type="submit"
+        className="blue-bg dim-txt"
+        onClick={getFiles()}
+        >Add File</button>
       </form>
 
       <div className="file-list">
-        <h3>Existing Files</h3>
-        <ul>
+        <h4 className=""> &gt; Files</h4>
+        <ul className="dim-txt">
           {list.map((file) => (
-            <li
-              key={file.id}
-              onClick={() => {
-                setSelectedFile(file);
-              }}
-            >
+            <li key={file.id} 
+            
+            onClick={() => {setSelectedFile(file)}}>
               {file.name} ({file.language})
             </li>
           ))}

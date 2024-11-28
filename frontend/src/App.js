@@ -9,6 +9,8 @@ import Auth from "./pages/Auth/Auth";
 import LeftPannel from "./components/LeftPanel";
 import RightPanel from "./components/RightPanel";
 import AppLayout from "./pages/Auth/AppLayout";
+import 'typeface-fira-code';
+
 function App() {
   return (
     <div className="App">
