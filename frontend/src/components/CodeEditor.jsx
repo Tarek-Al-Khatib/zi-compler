@@ -54,7 +54,6 @@ const CodeEditor = () => {
     editor.focus();
   };
 
-
   const updateContent = (newCode) => {
     setCode(newCode);
     const data = new FormData();
@@ -78,7 +77,7 @@ const CodeEditor = () => {
   };
 
   const run = async () => {
-    updateContent();
+    updateContent(editorRef.current?.getValue());
     const code = editorRef.current?.getValue();
     if (!code) return;
 
