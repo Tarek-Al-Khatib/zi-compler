@@ -99,14 +99,14 @@ const CodeEditor = () => {
 
   return (
 
-      <div className="flex column center compilar">
+      <div className="flex column compilar">
         <div className="flex row compilar-heading">
           {!isViewer && (
-          <button className="flex center action-btn white-txt black-bg run-btn" onClick={run}>
+          <button className="flex center action-btn compilar-bg run-btn " onClick={run}>
             Run
           </button>
         )}
-          <button className="flex center action-btn white-txt black-bg run-btn" 
+          <button className="flex center action-btn compilar-bg run-btn" 
           onClick={analyze}>
             AI Analyzer
           </button>
@@ -123,8 +123,8 @@ const CodeEditor = () => {
             options={{ readOnly: isViewer }}
           />
         </div>
-
-        <p className="black-txt">Output</p>
+        
+        <div className="black-txt output-header">Output</div>
         <div className="flex vs-bg output white-txt">
           {output}
         </div>

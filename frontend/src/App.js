@@ -10,6 +10,8 @@ import LeftPannel from "./components/LeftPanel";
 import RightPanel from "./components/RightPanel";
 import AppLayout from "./pages/Auth/AppLayout";
 import FilesProvider from "./contexts/FileContext";
+import 'typeface-fira-code';
+
 function App() {
   return (
     <div className="App">

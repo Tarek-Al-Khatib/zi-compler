@@ -19,7 +19,7 @@ const AppLayout = () =>{
         {/* <Navbar/> */}
         <div className="container">
                 
-        <div className="left-panel">
+        <div className="left-panel white-txt black-bg">
           <LeftPannel />
         </div>
 
@@ -27,7 +27,7 @@ const AppLayout = () =>{
           <CodeEditor />
         </div>
 
-        <div className="right-panel">
+        <div className="right-panel white-txt black-bg">
           <RightPanel />
         </div>
       </div>

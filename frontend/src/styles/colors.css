@@ -5,7 +5,7 @@
     background-color: #F4F6FF;
 }
 .white-txt{
-    color: #F4F6FF;
+    color: #e1e6f0;
 }
 
 .blue-bg{
@@ -17,4 +17,14 @@
 
 .vs-bg{
     background-color: #1e1e1e;
+}
+
+
+.compilar-bg{
+    background-color: #3a3a3a;
+}
+
+
+.dim-txt{
+    color: #D3D3D3;
 }
