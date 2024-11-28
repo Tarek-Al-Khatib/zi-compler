@@ -11,6 +11,15 @@ use App\Models\CollaborationRole;
 
 class MyEmailController extends Controller{
 
+
+    function get_PendingName(){
+        $files = File::where('user_id', auth()->id())->get();
+
+        return response()->json([
+            "files"=> $files
+        ]);
+    }
+   
     public function sendCollabo(Request $request)
     {
         $validated = $request->validate([
@@ -41,8 +50,9 @@ class MyEmailController extends Controller{
         'file_id' => $fileId,
         'user_id' => $receiverId,
         'creator_id' => $creatorId,
-        'role' => 'editor',
-        'status' => 'pending', 
+        'role' => 'viewer',
+        'status' => 'pending',
+        'name' => 'name'
     ]);
 
         $acceptUrl = route('collaborations.accept', ['fileId' => $fileId, 'userId' => $receiverId, 'creatorId' => $creatorId]);

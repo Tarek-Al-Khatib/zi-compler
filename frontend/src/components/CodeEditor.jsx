@@ -54,6 +54,7 @@ const CodeEditor = () => {
     editor.focus();
   };
 
+
   const updateContent = (newCode) => {
     setCode(newCode);
     const data = new FormData();
