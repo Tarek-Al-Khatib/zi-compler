@@ -32,6 +32,13 @@ const CodeEditor = () => {
   };
 
   const updateContent = ()=>{
+
+    if (!selectedFile || !selectedFile.id) {
+      console.error("No file selected or file ID is missing.");
+      alert("select a file first.")
+      return;
+    }
+
     const data = new FormData();
     data.append("content", code);
     

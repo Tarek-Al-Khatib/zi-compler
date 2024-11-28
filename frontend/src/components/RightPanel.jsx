@@ -24,6 +24,10 @@ const RightPannel = () => {
     fetchCollaborators();
   }, []);
 
+  useEffect(() => {
+    console.log("Updated pending collaborations:", pendingCollaborations);
+  }, [pendingCollaborations]);
+
   const fetchFiles = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -50,6 +54,7 @@ const fetchCollaborators = async () => {
       },
     });
     setCollaborated(response.data.collaborations);
+    // handleCollaborate();
   } catch (err) {
     console.error("Error fetching collaborations:", err);
     setError("Could not fetch collaborations.");
@@ -124,20 +129,34 @@ const fetchCollaborators = async () => {
         }
         
       );
+      const newCollaboration = {
+        file_id: selectedFilee.id,
+        user_id: selectedUser.id,
+        user: selectedUser,
+        file: selectedFilee,
+        role: "viewer", 
+        status: "pending",
+      };
   
+      setCollaborated((prevCollaborations) => [
+        ...prevCollaborations,
+        newCollaboration,
+      ]);
+  
+    
       alert("Collaboration invitation sent successfully!");
-      fetchCollaborations(); 
+    
     } catch (error) {
       console.error("Error sending collaboration invitation:", error);
       setError("Error sending collaboration invitation.");
     }
   };
-
+  // console.log("users collaborated",collaborated);
   const handleRoleChange = async (fileId, userId, newRole) => {
     try {
       const token = localStorage.getItem("token");
   
-      const response = await axios.patch(
+      await axios.patch(
         `http://127.0.0.1:8000/api/auth/collaboration-roles/${fileId}/${userId}/role`,
         { role: newRole },
         {
@@ -145,7 +164,9 @@ const fetchCollaborators = async () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
+      
         }
+       
       );
   
       setCollaborations(prevCollaborations =>
@@ -157,12 +178,13 @@ const fetchCollaborators = async () => {
       );
   
       alert("Role updated successfully!");
+      fetchCollaborators();
     } catch (error) {
       console.error("Error updating role:", error);
       setError("Error updating role.");
     }
   };
-
+  
 
   const fetchPendingCollaborations = async () => {
     const token = localStorage.getItem("token");
@@ -206,7 +228,8 @@ const fetchCollaborators = async () => {
       if (response.data && response.data.collaboration) {
         alert("Collaboration accepted!");
         fetchPendingCollaborations(); 
-        fetchCollaborators();
+        // fetchCollaborators();
+        // fetchCollaborations();
       }
     } catch (error) {
       console.error("Error accepting collaboration:", error);
@@ -264,7 +287,8 @@ const fetchCollaborators = async () => {
               <li key={collab.id}>
                 <p>User: {collab.user ? collab.user.name : 'N/A'}</p>
                 <p>File: {collab.file ? collab.file.name : 'N/A'}</p>
-                <p>Role: {collab.role} ({collab.status})</p>
+                <p>Role: {collab.role} </p>
+                <p>Status:({collab.status})</p>
                 <select
             value={collab.role}
             onChange={(e) => handleRoleChange(collab.file_id, collab.user_id, e.target.value)}
@@ -306,13 +330,14 @@ const fetchCollaborators = async () => {
         <ul>
           {collaborations.map((collaboration) => (
             <li key={collaboration.id} onClick={() => setSelectedFile({ ...collaboration.file, role: collaboration.role })}>
-              <strong>File:</strong> {collaboration.file.name} <br />
+              
+              <strong>User Invited:</strong> {collaboration.file.name} <br />
               <strong>Role:</strong> {collaboration.role}
             </li>
           ))}
         </ul>
       )}
-    </div>
+    </div> 
     </div>
   );
 };
