@@ -35,20 +35,6 @@ class CollaborationController extends Controller{
     ]);
 }
 
-// public function getUserCollaborations()
-// {
-//     $userId = auth()->id(); 
-
-//     $collaborations = CollaborationRole::with(['file', 'user'])
-//         ->where('user_id', $userId)
-//         ->where('status', 'accepted') 
-//         ->get();
-
-//     return response()->json([
-//         'collaborations' => $collaborations,
-//     ]);
-// }
-
 public function getUserCollaborations()
 {
     $userId = auth()->id(); 
@@ -73,7 +59,7 @@ public function getUserCollaborators()
         ->whereHas('file', function ($query) use ($userId) {
             $query->where('creator_id', $userId);
         })
-        ->where('status', 'accepted') 
+        ->orWhere('status', 'pending') 
         ->get();
 
     return response()->json([
@@ -119,18 +105,15 @@ public function getUserCollaborators()
     public function accept($fileId, $userId)
     {
         try {
-            // Find the collaboration record in the collaboration_roles table
             $collaboration = CollaborationRole::where('file_id', $fileId)
                 ->where('user_id', $userId)
-                ->where('status', 'pending') // Ensure only pending invitations are accepted
+                ->where('status', 'pending') 
                 ->first();
     
-            // Check if collaboration exists
             if (!$collaboration) {
                 return response()->json(['error' => 'Collaboration not found or already accepted'], 404);
             }
     
-            // Update the status to accepted
             $collaboration->update([
                 'status' => 'accepted',
             ]);
@@ -140,7 +123,6 @@ public function getUserCollaborators()
                 'collaboration' => $collaboration,
             ]);
         } catch (\Exception $e) {
-            // Log and return any exception
             \Log::error('Error accepting collaboration: ' . $e->getMessage());
             return response()->json(['error' => 'Something went wrong. Please check the server logs.'], 500);
         }
