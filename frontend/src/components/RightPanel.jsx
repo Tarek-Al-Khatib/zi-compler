@@ -240,11 +240,10 @@ const fetchCollaborators = async () => {
 
   return (
     <div>
-      <h3>Add Collaborators</h3>
-
+      <h2 className="flex center">Collabs</h2>
+      <h4 className=" "> &gt; New Collaborator</h4>
       <div>
-        <label>Select File</label>
-        <select onChange={handleFileChange} value={selectedFilee ? selectedFilee.id : ""}>
+        <select className="vs-bg white-txt" onChange={handleFileChange} value={selectedFilee ? selectedFilee.id : ""}>
           <option value="">Select a file</option>
           {files.length > 0 ? (
             files.map((file) => (
@@ -259,8 +258,7 @@ const fetchCollaborators = async () => {
       </div>
 
       <div>
-        <label>Select User</label>
-        <select onChange={handleUserChange} value={selectedUser ? selectedUser.id : ""}>
+        <select className="vs-bg white-txt" onChange={handleUserChange} value={selectedUser ? selectedUser.id : ""}>
           <option value="">Select a user</option>
           {users.length > 0 ? (
             users.map((user) => (
@@ -276,13 +274,16 @@ const fetchCollaborators = async () => {
 
 
       <div>
-        <button onClick={handleCollaborate}>Invite to Collaborate</button>
+        <button className="blue-bg" onClick={handleCollaborate}>
+          Invite</button>
       </div>
 
       <div className="collaborators-list">
-        <h3>Collaborators</h3>
+        <h4> &gt; Collaborators</h4>
         {collaborated.length > 0 ? (
-          <ul>
+          <ul
+          className="flex column center"
+          >
             {collaborated.map((collab) => (
               <li key={collab.id}>
                 <p>User: {collab.user ? collab.user.name : 'N/A'}</p>
@@ -290,10 +291,11 @@ const fetchCollaborators = async () => {
                 <p>Role: {collab.role} </p>
                 <p>Status:({collab.status})</p>
                 <select
+                className="vs-bg white-txt"
             value={collab.role}
             onChange={(e) => handleRoleChange(collab.file_id, collab.user_id, e.target.value)}
           >
-            <option value="editor">Editor</option>
+            <option value="editor ">Editor</option>
             <option value="viewer">Viewer</option>
           </select>
               </li>
@@ -305,15 +307,15 @@ const fetchCollaborators = async () => {
       </div>
 
       <div>
-    <h3>Pending Invitations</h3>
+    <h4> &gt; My Pending Invitations</h4>
     {pendingCollaborations.length === 0 ? (
-      <p>No pending invitations.</p>
+      <p className="dim-txt">No pending invitations.</p>
     ) : (
       <ul>
         {pendingCollaborations.map((collab) => (
           <li key={collab.id}>
             <p>File: {collab.file ? collab.file.name : 'N/A'}</p> has invited you to collaborate.
-            <button onClick={() => handleAcceptInvitation(collab.file_id, collab.user_id)}>
+            <button className="blue-bg" onClick={() => handleAcceptInvitation(collab.file_id, collab.user_id)}>
               Accept Invitation
             </button>
           </li>
@@ -323,7 +325,7 @@ const fetchCollaborators = async () => {
   </div>
 
   <div className="file-list">
-      <h2>Your Collaborations</h2>
+      <h4> &gt; My Collaborations</h4>
       {collaborations.length === 0 ? (
         <p>You are not collaborating on any files.</p>
       ) : (

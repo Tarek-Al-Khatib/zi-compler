@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Events\FileContentUpdated;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\File;
@@ -44,17 +44,21 @@ class FileController extends Controller{
             'file' => $file
         ], 201);
     }
-    
-    public function update_content($id, Request $request)
-    {  
-        
-        $file = File::find($id)->update([
-            'content' => $request->content,
-        ]);
 
-        return response()->json([
-            'message' => 'File updated successfully!',
-        ], 201);
+    public function update(Request $request, $id)
+    {
+        $file = File::findOrFail($id);
+        $file->content = $request->content;
+        $file->save();
+
+        broadcast(new FileContentUpdated(
+            $file->id,
+            $file->content,
+            $request->cursorPosition,
+            $request->userId
+        ))->toOthers();
+
+        return response()->json(['status' => 'success']);
     }
 
 }

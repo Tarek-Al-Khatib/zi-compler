@@ -36,10 +36,12 @@ cursor: pointer;
 }
 
 .action-btn {
-    height: 22px;
-    width: 100px;
-    border-radius: 5px;
-    border: 2px solid #0065a9;
-    font-weight: bold;
+    height: 20px;
+    letter-spacing: 1px;
+    width: auto;
+    border-radius: 3px;
+    font-size: 11px;
+    background-color: #0065a9;
+    font-weight:bold;
     transition: all 0.3s;
   }

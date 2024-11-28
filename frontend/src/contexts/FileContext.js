@@ -23,18 +23,20 @@ const FilesProvider = ({ children }) => {
 
   const fetchCollaborations = async () => {
     try {
-        const response = await axios.get("http://127.0.0.1:8000/api/user/collaborations", {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}` 
-            }
-        });
-        console.log("API Response Data:", response.data);
-        setCollaborations(response.data.collaborations); 
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/user/collaborations",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log("API Response Data:", response.data);
+      setCollaborations(response.data.collaborations);
     } catch (error) {
-        console.error("Error fetching collaborations:", error);
+      console.error("Error fetching collaborations:", error);
     }
-};
-
+  };
 
   useEffect(() => {
     getFiles();
@@ -44,7 +46,8 @@ const FilesProvider = ({ children }) => {
   return (
     <filesContext.Provider
       value={{
-        list: files,collaborations,
+        list: files,
+        collaborations,
         getFiles,
         fetchCollaborations,
         setCollaborations,

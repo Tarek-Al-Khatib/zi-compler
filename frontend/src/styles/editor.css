@@ -3,17 +3,23 @@
     width: 100%;
     height: 100%;
     font-family: Consolas, "Courier New", monospace;
+
     /* gap: 10px; */
+}
+.middle-panel{
+    color: #d9d9d9;
+    background-color:#1e1e1e ;
 }
 
 .input-container{
     gap: 5px;
     width: 100%;
     height: 100%;
+    
 }
 .input-container>p, .output-container>p{
     width: 100%;
-    text-align: center;
+    /* text-align: center; */
     font-weight: bold;
     font-size: 18px;
 }
@@ -26,22 +32,28 @@
 }
 
 .output{
-    border:1px solid #0065a9;
-    border-radius: 10px;
+    /* border:1px solid #0065a9; */
+    /* border-radius: 10px; */
     width: 100%;
     height: 100%;
     font-size: 14px;
     padding: 10px;
-}
-
-.input-header{
-    gap: 20px;
+    
 }
 
 .compilar{
     width: 100%;
     height: 100%;
-    gap: 5px;
+    /* gap: 5px; */
+}
+.output-header{
+    margin: 5px;
+    margin-left: 10px;
+    width: 50px;
+    font-size: 14px;
+    height: auto;
+    border-bottom: 1px solid white;
+
 }
 
 .input{
@@ -51,24 +63,14 @@
 .output{
     width: 100%;
     height: 25%;
+    overflow-y: scroll;
+}
+.output::-webkit-scrollbar {
+    display: none;
 }
 
 .compilar-heading{
     gap: 20px;
-    text-align: center;
+    padding-right: 20px;
+    justify-content: flex-end;
 }
-
-.line-error {
-    background-color: red;
-    color: white;
-  }
-  
-  .line-warning {
-    background-color: yellow;
-    color: black;
-  }
-
-  .highlight-comment {
-    background-color: blue;
-    border-left: 3px solid orange;
-  }
