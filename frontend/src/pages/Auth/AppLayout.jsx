@@ -6,24 +6,27 @@ import Navbar from "../../base/navbar";
 import LeftPannel from "../../components/LeftPanel";
 import RightPanel from "../../components/RightPanel";
 import CodeEditor from "../../components/CodeEditor";
+import FilesProvider from "../../contexts/FileContext";
 
 const AppLayout = () => {
   return (
     <div className="layouts">
       {/* <Navbar/> */}
-      <div className="container">
-        <div className="left-panel">
-          <LeftPannel />
-        </div>
+      <FilesProvider>
+        <div className="container">
+          <div className="left-panel">
+            <LeftPannel />
+          </div>
 
-        <div className="middle-panel">
-          <CodeEditor />
-        </div>
+          <div className="middle-panel">
+            <CodeEditor />
+          </div>
 
-        <div className="right-panel">
-          <RightPanel />
+          <div className="right-panel">
+            <RightPanel />
+          </div>
         </div>
-      </div>
+      </FilesProvider>
     </div>
   );
 };

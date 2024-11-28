@@ -20,22 +20,24 @@ const CodeEditor = () => {
   }, [selectedFile]);
 
   useEffect(() => {
-    const pusher = new Pusher("90700eb534538226cdab", {
-      cluster: "eu",
-    });
+    if (selectedFile) {
+      const pusher = new Pusher("90700eb534538226cdab", {
+        cluster: "eu",
+      });
 
-    const channel = pusher.subscribe(`file.${selectedFile.id}`);
-    channel.bind("FileContentUpdated", (data) => {
-      setCode(data.content);
-      setCursors((prev) => ({
-        ...prev,
-        [data.userId]: data.cursorPosition,
-      }));
-    });
+      const channel = pusher.subscribe(`file.${selectedFile.id}`);
+      channel.bind("FileContentUpdated", (data) => {
+        setCode(data.content);
+        setCursors((prev) => ({
+          ...prev,
+          [data.userId]: data.cursorPosition,
+        }));
+      });
 
-    return () => {
-      pusher.unsubscribe(`file.${selectedFile.id}`);
-    };
+      return () => {
+        pusher.unsubscribe(`file.${selectedFile.id}`);
+      };
+    }
   }, [selectedFile]);
 
   const formatErrorMessage = (error) => {
