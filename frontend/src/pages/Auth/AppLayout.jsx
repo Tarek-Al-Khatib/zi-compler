@@ -14,17 +14,17 @@ const AppLayout = () => {
       {/* <Navbar/> */}
       <FilesProvider>
         <div className="container">
-                
-        <div className="left-panel white-txt black-bg">
-          <LeftPannel />
-        </div>
+          <div className="left-panel white-txt black-bg">
+            <LeftPannel />
+          </div>
 
           <div className="middle-panel">
             <CodeEditor />
           </div>
 
-        <div className="right-panel white-txt black-bg">
-          <RightPanel />
+          <div className="right-panel white-txt black-bg">
+            <RightPanel />
+          </div>
         </div>
       </FilesProvider>
     </div>
