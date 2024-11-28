@@ -23,10 +23,13 @@ const CodeEditor = () => {
     if (selectedFile) {
       const pusher = new Pusher("90700eb534538226cdab", {
         cluster: "eu",
+        encrypted: true,
       });
 
       const channel = pusher.subscribe(`file.${selectedFile.id}`);
+
       channel.bind("FileContentUpdated", (data) => {
+        console.log(data);
         setCode(data.content);
         setCursors((prev) => ({
           ...prev,
@@ -54,7 +57,7 @@ const CodeEditor = () => {
   const updateContent = (newCode) => {
     setCode(newCode);
     const data = new FormData();
-    data.append("content", code);
+    data.append("content", newCode);
 
     axios
       .put(`http://127.0.0.1:8000/api/auth/${selectedFile.id}`, data, {
@@ -146,7 +149,7 @@ const CodeEditor = () => {
           defaultValue="# start code"
           theme="vs-dark"
           value={code}
-          onChange={(newCode) => setCode(newCode)}
+          onChange={(newCode) => updateContent(newCode)}
           onMount={onMount}
           options={{ readOnly: isViewer }}
         />
